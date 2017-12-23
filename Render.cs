@@ -17,7 +17,6 @@ namespace render
             foreach(Polyline p in scene.polyLines)
             {
                 DrawWire(ref arr, p.points, scene.camera);
-                
             }
 
             //for(int i = 0; i < arr.Length; i++)
@@ -60,7 +59,6 @@ namespace render
         void PutPixel(int i, int j, Color color, ref byte[] arr, Vector2 size)
         {
             int pos = (int)(i * size.X * depth + j * depth);
-            //size_t coord = posI * bitmap.width * bitmap.depth + posJ * bitmap.depth;
 
             arr[pos] = color.Blue;
             arr[++pos] = color.Green;

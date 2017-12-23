@@ -13,15 +13,24 @@ namespace render
             return new Scene
             {
                 camera = new Camera(new Vector2(640, 480)),
-                polyLines = new Polyline[1]
+                polyLines = new Polyline[]
                 {
                     new Polyline
                     {
                         points = GetFunction(Func, 1000*3, 60, 60)
+                    },
+                    new Polyline
+                    {
+                        points = GetFunction(Func1, 1000*3, 60, 60)
+                    },
+                    new Polyline
+                    {
+                        points = GetFunction(Func2, 1000*3, 60, 60)
                     }
                 }
             };
         }
+
 
         static double[] GetFunction(Func<double, double> func, int count, double kx, double ky)
         {
@@ -41,6 +50,13 @@ namespace render
 
         static double Func(double x) =>
             Math.Sin(x);
+
+        static double Func1(double x) =>
+            1;
+
+        static double Func2(double x) =>
+            -1;
+
     }
 
 }
