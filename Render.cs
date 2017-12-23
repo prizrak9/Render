@@ -12,18 +12,18 @@ namespace render
         public byte[] GetImage(Scene scene)
         {
             // Bgra32
-            byte[] arr = new byte[(int)(scene.camera.size.X * scene.camera.size.Y * depth)];
+            byte[] arr = new byte[(int)(scene.camera.Size.X * scene.camera.Size.Y * depth)];
 
             foreach(Polyline p in scene.polyLines)
             {
                 for(int i = 3, j = 0; i < p.points.Length; i+=3, j+=3)
                 {
 
-                    Line((int)(scene.camera.center.X + p.points[j]),
-                        (int)(scene.camera.center.Y + p.points[j + 1]), 
-                        (int)(scene.camera.center.X + p.points[i]), 
-                        (int)(scene.camera.center.Y + p.points[i + 1]),
-                        ref arr, new Color(255, 0, 0, 255), scene.camera.size);
+                    Line((int)(scene.camera.Center.X + p.points[j]),
+                        (int)(scene.camera.Center.Y + p.points[j + 1]), 
+                        (int)(scene.camera.Center.X + p.points[i]), 
+                        (int)(scene.camera.Center.Y + p.points[i + 1]),
+                        ref arr, new Color(255, 0, 0, 255), scene.camera.Size);
                 }
             }
 

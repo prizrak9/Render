@@ -38,12 +38,8 @@ namespace render
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            scene.camera.size.X = (int)e.NewSize.Width;
-            scene.camera.size.Y = (int)e.NewSize.Height;
-            scene.camera.center = scene.camera.size / 2;
-
+            scene.camera = new Camera(new Vector((int)e.NewSize.Width, (int)e.NewSize.Height, 0.0));
             image.Source = BitmapSource.Create((int)e.NewSize.Width, (int)e.NewSize.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)e.NewSize.Width);
-
         }
 
         private void sliderX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -51,9 +47,7 @@ namespace render
             scene = SceneBuilder.GenerateScene(sliderX.Value, sliderY?.Value ?? 1);
             if (image.Source != null)
             {
-                scene.camera.size.X = (int)image.Source.Width;
-                scene.camera.size.Y = (int)image.Source.Height;
-                scene.camera.center = scene.camera.size / 2;
+                scene.camera = new Camera(new Vector((int)image.Source.Width, (int)image.Source.Height, 0.0));
                 image.Source = BitmapSource.Create((int)image.Source.Width, (int)image.Source.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.Source.Width);
             }
         }
@@ -63,9 +57,7 @@ namespace render
             scene = SceneBuilder.GenerateScene(sliderX?.Value ?? 1, sliderY.Value);
             if (image.Source != null)
             {
-                scene.camera.size.X = (int)image.Source.Width;
-                scene.camera.size.Y = (int)image.Source.Height;
-                scene.camera.center = scene.camera.size / 2;
+                scene.camera = new Camera(new Vector((int)image.Source.Width, (int)image.Source.Height, 0.0));
                 image.Source = BitmapSource.Create((int)image.Source.Width, (int)image.Source.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.Source.Width);
             }
         }
