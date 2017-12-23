@@ -38,7 +38,8 @@ namespace render
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            scene.camera = new Camera(new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height));
+            scene.camera.Size = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
+//            scene.camera = new Camera(new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height));
             image.Source = BitmapSource.Create((int)e.NewSize.Width, (int)e.NewSize.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)e.NewSize.Width);
         }
 

@@ -54,11 +54,6 @@ namespace render
                         (int)(centX + x2), (int)(centY + y2),
                         ref buffer, new Color(255, 0, 0, 255), camera.Size);
                 }
-                /*Line((int)(scene.camera.Center.X + p.points[j]),
-                    (int)(scene.camera.Center.Y + p.points[j + 1]), 
-                    (int)(scene.camera.Center.X + p.points[i]), 
-                    (int)(scene.camera.Center.Y + p.points[i + 1]),
-                    ref arr, new Color(255, 0, 0, 255), scene.camera.Size);*/
             }
         }
 
