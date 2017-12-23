@@ -16,6 +16,17 @@ namespace render
             double x = ob1.x / ob2, y = ob1.y / ob2, z = ob1.z / ob2;
             return new Vector { x = x, y = y, z = z };
         }
+
+        public Vector(double x, double y, double z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public static Vector Up => new Vector(0, 0, 1);
+        public static Vector Left => new Vector(0, 1, 0);
+        public static Vector Forward => new Vector(1, 0, 0);
     }
 
     struct Polyline
