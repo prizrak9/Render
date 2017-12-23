@@ -13,3 +13,17 @@ F:\Projects\Viual studio\Other\render\render\obj\Debug\render.csproj.GenerateRes
 F:\Projects\Viual studio\Other\render\render\obj\Debug\render.csproj.CoreCompileInputs.cache
 F:\Projects\Viual studio\Other\render\render\obj\Debug\render.exe
 F:\Projects\Viual studio\Other\render\render\obj\Debug\render.pdb
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\bin\Debug\render.exe.config
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\bin\Debug\render.exe
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\bin\Debug\render.pdb
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.csprojResolveAssemblyReference.cache
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\MainWindow.g.cs
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\App.g.cs
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render_MarkupCompile.cache
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render_MarkupCompile.lref
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\MainWindow.baml
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.g.resources
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.Properties.Resources.resources
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.csproj.GenerateResource.Cache
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.exe
+C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.pdb

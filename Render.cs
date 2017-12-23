@@ -18,12 +18,24 @@ namespace render
             {
                 for(int i = 3, j = 0; i < p.points.Length; i+=3, j+=3)
                 {
-
-                    Line((int)(scene.camera.Center.X + p.points[j]),
+                    double dx1 = p.points[j] - scene.camera.pos.X, dy1 = p.points[j + 1] - scene.camera.pos.Y, dz1 = p.points[j + 2] - scene.camera.pos.Z;
+                    if (dz1 > 0)
+                    {
+                        double x1 = scene.camera.Size.X / 2 / dz1 / Math.Tan(scene.camera.alphaX) * dx1;
+                        double x2 = scene.camera.Size.X / 2 / p.points[i + 2] / Math.Tan(scene.camera.alphaX) * p.points[i];
+                        double y1 = scene.camera.Size.Y / 2 / dz1 / Math.Tan(scene.camera.alphaY) * dy1;
+                        double y2 = scene.camera.Size.Y / 2 / p.points[i + 2] / Math.Tan(scene.camera.alphaY) * p.points[i + 1];
+                        Line((int)(scene.camera.Center.X + x1),
+                            (int)(scene.camera.Center.Y + y1),
+                            (int)(scene.camera.Center.X + x2),
+                            (int)(scene.camera.Center.Y + y2),
+                            ref arr, new Color(255, 0, 0, 255), scene.camera.Size);
+                    }
+                    /*Line((int)(scene.camera.Center.X + p.points[j]),
                         (int)(scene.camera.Center.Y + p.points[j + 1]), 
                         (int)(scene.camera.Center.X + p.points[i]), 
                         (int)(scene.camera.Center.Y + p.points[i + 1]),
-                        ref arr, new Color(255, 0, 0, 255), scene.camera.Size);
+                        ref arr, new Color(255, 0, 0, 255), scene.camera.Size);*/
                 }
             }
 

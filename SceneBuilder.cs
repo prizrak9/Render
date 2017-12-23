@@ -17,7 +17,7 @@ namespace render
                 {
                     new Polyline
                     {
-                        points = GetFunction(Func, 1000*3, kx, ky)
+                        points = GetFunction(Func, 1000*3, 60, 60)
                     }
                 }
             };
@@ -33,7 +33,7 @@ namespace render
             {
                 arr[i] = x * kx;
                 arr[i + 1] = func(x * kx) * ky;
-                arr[i + 2] = 0.0;
+                arr[i + 2] = 70 + i * 3.5;
             }
 
             return arr;
