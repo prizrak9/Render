@@ -8,26 +8,22 @@ namespace render
 {
     class SceneBuilder
     {
-        public static Scene GenerateScene()
+        public static Scene GenerateScene(double kx = 1, double ky = 1)
         {
             return new Scene
             {
-                camera = new Camera(new Vector
-                {
-                    x = 640,
-                    y = 480
-                }),
+                camera = new Camera(new Vector(640, 480, 0)),
                 polyLines = new Polyline[1]
                 {
                     new Polyline
                     {
-                        points = GetFunction(Func, 1000*3)
+                        points = GetFunction(Func, 1000*3, kx, ky)
                     }
                 }
             };
         }
 
-        static double[] GetFunction(Func<double, double> func, int count)
+        static double[] GetFunction(Func<double, double> func, int count, double kx, double ky)
         {
             double[] arr = new double[count];
 
@@ -35,8 +31,8 @@ namespace render
 
             for(int i = 0; i < count; i+=3, x+=step)
             {
-                arr[i] = x*25;
-                arr[i + 1] = func(x)*25;
+                arr[i] = x * kx;
+                arr[i + 1] = func(x * kx) * ky;
                 arr[i + 2] = 0.0;
             }
 

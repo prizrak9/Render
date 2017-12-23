@@ -12,17 +12,17 @@ namespace render
         public byte[] GetImage(Scene scene)
         {
             // Bgra32
-            byte[] arr = new byte[(int)(scene.camera.size.x * scene.camera.size.y * depth)];
+            byte[] arr = new byte[(int)(scene.camera.size.X * scene.camera.size.Y * depth)];
 
             foreach(Polyline p in scene.polyLines)
             {
                 for(int i = 3, j = 0; i < p.points.Length; i+=3, j+=3)
                 {
 
-                    Line((int)(scene.camera.center.x + p.points[j]),
-                        (int)(scene.camera.center.y + p.points[j + 1]), 
-                        (int)(scene.camera.center.x + p.points[i]), 
-                        (int)(scene.camera.center.y + p.points[i + 1]),
+                    Line((int)(scene.camera.center.X + p.points[j]),
+                        (int)(scene.camera.center.Y + p.points[j + 1]), 
+                        (int)(scene.camera.center.X + p.points[i]), 
+                        (int)(scene.camera.center.Y + p.points[i + 1]),
                         ref arr, 255, 0, 0, 255, scene.camera.size);
                 }
             }
@@ -40,7 +40,7 @@ namespace render
 
         void PutPixel(int i, int j, byte blue, byte green, byte red, byte alpha, ref byte[] arr, Vector size)
         {
-            int pos = (int)(i * size.x * depth + j * depth);
+            int pos = (int)(i * size.X * depth + j * depth);
             //size_t coord = posI * bitmap.width * bitmap.depth + posJ * bitmap.depth;
 
             arr[pos] = blue;
@@ -54,8 +54,8 @@ namespace render
             for (double t = 0.0; t < 1.0; t += 0.01)
             {
                 int x = (int)(x0 * (1.0 - t) + x1 * t);
-                int y = (int)(size.y - (y0 * (1.0 - t) + y1 * t)) - 1;
-                if (!(y < 0 || y >= size.y || x < 0 || x > size.x))
+                int y = (int)(size.Y - (y0 * (1.0 - t) + y1 * t)) - 1;
+                if (!(y < 0 || y >= size.Y || x < 0 || x > size.X))
                     PutPixel(y, x, blue, green, red, alpha, ref arr, size);
             }
         }

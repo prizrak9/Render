@@ -32,14 +32,22 @@ namespace render
         public static Vector operator /(Vector ob1, double ob2) =>
              new Vector(ob1.X / ob2, ob1.Y / ob2, ob1.Z / ob2);
 
+        public static Vector operator *(Vector ob1, Vector ob2) =>
+            new Vector(ob1.X * ob2.Z - ob1.Z * ob2.Y, ob1.Z * ob2.X - ob1.X * ob2.Z, ob1.X * ob2.Y - ob1.Y * ob2.X);
+
         public static Vector FromEuler(double angX, double angY, double angZ) =>
             new Vector(Math.Cos(angX), Math.Cos(angY), Math.Cos(angZ));
 
         public static double ScalarMultiply(Vector a, Vector b) =>
             a.X * b.X + a.Y * b.Y + a.Z * b.Z;
 
+        public static Vector VectorMultiply(Vector a, Vector b) =>
+            a * b;
+
+
         public static double AngleBetween(Vector a, Vector b) =>
             Math.Acos(ScalarMultiply(a, b) / a.Magnitude / b.Magnitude);
+
 
 }
 
