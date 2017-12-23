@@ -23,7 +23,7 @@ namespace render
                         (int)(scene.camera.center.Y + p.points[j + 1]), 
                         (int)(scene.camera.center.X + p.points[i]), 
                         (int)(scene.camera.center.Y + p.points[i + 1]),
-                        ref arr, 255, 0, 0, 255, scene.camera.size);
+                        ref arr, new Color(255, 0, 0, 255), scene.camera.size);
                 }
             }
 
@@ -38,25 +38,25 @@ namespace render
             return arr;
         }
 
-        void PutPixel(int i, int j, byte blue, byte green, byte red, byte alpha, ref byte[] arr, Vector size)
+        void PutPixel(int i, int j, Color color, ref byte[] arr, Vector size)
         {
             int pos = (int)(i * size.X * depth + j * depth);
             //size_t coord = posI * bitmap.width * bitmap.depth + posJ * bitmap.depth;
 
-            arr[pos] = blue;
-            arr[++pos] = green;
-            arr[++pos] = red;
-            arr[++pos] = alpha;
+            arr[pos] = color.Blue;
+            arr[++pos] = color.Green;
+            arr[++pos] = color.Red;
+            arr[++pos] = color.Alpha;
         }
 
-        void Line(int x0, int y0, int x1, int y1, ref byte[] arr, byte blue, byte green, byte red, byte alpha, Vector size)
+        void Line(int x0, int y0, int x1, int y1, ref byte[] arr, Color color, Vector size)
         {
             for (double t = 0.0; t < 1.0; t += 0.01)
             {
                 int x = (int)(x0 * (1.0 - t) + x1 * t);
                 int y = (int)(size.Y - (y0 * (1.0 - t) + y1 * t)) - 1;
                 if (!(y < 0 || y >= size.Y || x < 0 || x > size.X))
-                    PutPixel(y, x, blue, green, red, alpha, ref arr, size);
+                    PutPixel(y, x, color, ref arr, size);
             }
         }
     }
