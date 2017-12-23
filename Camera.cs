@@ -4,24 +4,40 @@ namespace render
 {
     struct Camera
     {
-        public Vector Size { get; set; }
-        public Vector Center { get; set; }
-        public Quaternion Rotation { get; set; }
-        public Vector angle;
-        public Vector pos;
-        public double alphaX;
-        public double alphaY;
-
-
-        public Camera(Vector size)
+        public Vector2 Size
         {
-            Size = size;
-            Center = size / 2;
-            Rotation = new Quaternion(0, 0, 0, 0);
-            angle = new Vector(1, 1, 1);
-            alphaX = Math.PI / 6;
-            alphaY = Math.PI / 10;
-            pos = new Vector(0, 0, 0);
+            get => size;
+            set
+            {
+                Center = value / 2;
+                size = value;
+            }
+        }
+        public Vector2 Center { get; private set; }
+
+        public Vector3 rotation;
+        public Vector3 position;
+
+        private Vector2 size;
+        private Vector2 fov;
+
+        public void SetFOV(double angleVertical)
+        {
+            fov.Y = Math.Tan(angleVertical);
+            fov.X = Math.Tan(size.X * fov.Y / size.Y);
+        }
+        public Vector2 GetFov()
+        {
+            return fov;
+        }
+
+        public Camera(Vector2 size, double angleVertical = Math.PI / 6)
+        {
+            this.size = size;
+            rotation = new Vector3(1, 1, 1);
+            fov = new Vector2(Math.Tan(angleVertical), Math.Tan(size.X * Math.Tan(angleVertical) / size.Y));
+            position = new Vector3(0, 0, 0);
+            Center = size/2;
         }
     }
 }
