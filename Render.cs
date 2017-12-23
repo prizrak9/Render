@@ -16,27 +16,8 @@ namespace render
 
             foreach(Polyline p in scene.polyLines)
             {
-                for(int i = 3, j = 0; i < p.points.Length; i+=3, j+=3)
-                {
-                    double dx1 = p.points[j] - scene.camera.pos.X, dy1 = p.points[j + 1] - scene.camera.pos.Y, dz1 = p.points[j + 2] - scene.camera.pos.Z;
-                    if (dz1 > 0)
-                    {
-                        double x1 = scene.camera.Size.X / 2 / dz1 / Math.Tan(scene.camera.alphaX) * dx1;
-                        double x2 = scene.camera.Size.X / 2 / p.points[i + 2] / Math.Tan(scene.camera.alphaX) * p.points[i];
-                        double y1 = scene.camera.Size.Y / 2 / dz1 / Math.Tan(scene.camera.alphaY) * dy1;
-                        double y2 = scene.camera.Size.Y / 2 / p.points[i + 2] / Math.Tan(scene.camera.alphaY) * p.points[i + 1];
-                        Line((int)(scene.camera.Center.X + x1),
-                            (int)(scene.camera.Center.Y + y1),
-                            (int)(scene.camera.Center.X + x2),
-                            (int)(scene.camera.Center.Y + y2),
-                            ref arr, new Color(255, 0, 0, 255), scene.camera.Size);
-                    }
-                    /*Line((int)(scene.camera.Center.X + p.points[j]),
-                        (int)(scene.camera.Center.Y + p.points[j + 1]), 
-                        (int)(scene.camera.Center.X + p.points[i]), 
-                        (int)(scene.camera.Center.Y + p.points[i + 1]),
-                        ref arr, new Color(255, 0, 0, 255), scene.camera.Size);*/
-                }
+                DrawWire(ref arr, p.points, scene.camera);
+                
             }
 
             //for(int i = 0; i < arr.Length; i++)
@@ -50,7 +31,38 @@ namespace render
             return arr;
         }
 
-        void PutPixel(int i, int j, Color color, ref byte[] arr, Vector size)
+        void DrawWire(ref byte[] buffer, double[] points, Camera camera)
+        {
+            double dx, dy, dz;
+            double x1, x2, y1, y2;
+            double centX = camera.Center.X, centY = camera.Center.Y;
+            double fovX = camera.GetFov().X, fovY = camera.GetFov().Y;
+
+            for (int i = 3, j = 0; i < points.Length; i += 3, j += 3)
+            {
+                dx = points[j] - camera.position.X;
+                dy = points[j + 1] - camera.position.Y;
+                dz = points[j + 2] - camera.position.Z;
+
+                if (dz > 0)
+                {
+                    x1 = centX / dz / fovX * dx;
+                    x2 = centX / points[i + 2] / fovX * points[i];
+                    y1 = centY / dz / fovY * dy;
+                    y2 = centY / points[i + 2] / fovY * points[i + 1];
+                    Line((int)(centX + x1), (int)(centY + y1),
+                        (int)(centX + x2), (int)(centY + y2),
+                        ref buffer, new Color(255, 0, 0, 255), camera.Size);
+                }
+                /*Line((int)(scene.camera.Center.X + p.points[j]),
+                    (int)(scene.camera.Center.Y + p.points[j + 1]), 
+                    (int)(scene.camera.Center.X + p.points[i]), 
+                    (int)(scene.camera.Center.Y + p.points[i + 1]),
+                    ref arr, new Color(255, 0, 0, 255), scene.camera.Size);*/
+            }
+        }
+
+        void PutPixel(int i, int j, Color color, ref byte[] arr, Vector2 size)
         {
             int pos = (int)(i * size.X * depth + j * depth);
             //size_t coord = posI * bitmap.width * bitmap.depth + posJ * bitmap.depth;
@@ -61,7 +73,7 @@ namespace render
             arr[++pos] = color.Alpha;
         }
 
-        void Line(int x0, int y0, int x1, int y1, ref byte[] arr, Color color, Vector size)
+        void Line(int x0, int y0, int x1, int y1, ref byte[] arr, Color color, Vector2 size)
         {
             for (double t = 0.0; t < 1.0; t += 0.01)
             {

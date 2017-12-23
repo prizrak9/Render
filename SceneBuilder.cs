@@ -8,11 +8,11 @@ namespace render
 {
     class SceneBuilder
     {
-        public static Scene GenerateScene(double kx = 1, double ky = 1)
+        public static Scene GenerateScene()
         {
             return new Scene
             {
-                camera = new Camera(new Vector(640, 480, 0)),
+                camera = new Camera(new Vector2(640, 480)),
                 polyLines = new Polyline[1]
                 {
                     new Polyline
