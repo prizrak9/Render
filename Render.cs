@@ -31,22 +31,9 @@ namespace render
                             (int)(scene.camera.Center.Y + y2),
                             ref arr, new Color(255, 0, 0, 255), scene.camera.Size);
                     }
-                    /*Line((int)(scene.camera.Center.X + p.points[j]),
-                        (int)(scene.camera.Center.Y + p.points[j + 1]), 
-                        (int)(scene.camera.Center.X + p.points[i]), 
-                        (int)(scene.camera.Center.Y + p.points[i + 1]),
-                        ref arr, new Color(255, 0, 0, 255), scene.camera.Size);*/
                 }
             }
-
-            //for(int i = 0; i < arr.Length; i++)
-            //{
-            //    arr[i] = 50;
-            //}
-            //Line(0, 0, 100, 100, ref arr, 255, 0, 0, 255, scene.camera.size);
-
-
-
+            
             return arr;
         }
 
