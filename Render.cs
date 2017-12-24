@@ -31,7 +31,7 @@ namespace render
             return arr;
         }
 
-        Vector3 RotateToCameraRotation(Vector3 position, Vector3 cameraRotation)
+        Vector3 ProjectToCameraViewSurface(Vector3 position, Vector3 cameraRotation)
         {
             Vector3 local = Vector3.ProjectVectorToVector(position, cameraRotation);
 
@@ -87,8 +87,8 @@ namespace render
                 localPosition1 = GetLocalPosition(point1, camera.position);
 
                 // Project local position to camera view.
-                point0 = RotateToCameraRotation(localPosition0, camera.rotation);
-                point1 = RotateToCameraRotation(localPosition1, camera.rotation);
+                point0 = ProjectToCameraViewSurface(localPosition0, camera.rotation);
+                point1 = ProjectToCameraViewSurface(localPosition1, camera.rotation);
 
                 // If line is located behind or crosses camera view than skip this line.
                 if (point0.X >= -camera.Length || point1.X >= -camera.Length) continue;
