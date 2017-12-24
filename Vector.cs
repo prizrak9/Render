@@ -15,6 +15,11 @@ namespace render
         public static Vector2 operator /(Vector2 ob1, double ob2) =>
             new Vector2(ob1.X / ob2, ob1.Y / ob2);
 
+        public static Vector2 operator+(Vector2 ob1, double ob2)
+        {
+            return new Vector2(ob1.X + ob2, ob1.Y + ob2);
+        }
+
     }
 
     struct Vector3
@@ -64,8 +69,19 @@ namespace render
             a * b;
 
 
-        public static double AngleBetween(Vector3 a, Vector3 b) =>
-            Math.Acos(ScalarMultiply(a, b) / a.Magnitude / b.Magnitude);
+        public static double AngleBetween(Vector3 a, Vector3 b)
+        {
+            double aMag = a.Magnitude, bMag = b.Magnitude;
+
+                return Math.Acos(ScalarMultiply(a, b) / aMag / bMag);
+            //if(aMag != 0 && bMag != 0)
+            //else if (aMag == 0 && bMag != 0)
+            //    return Math.PI / 2;
+            //else if (aMag != 0 && bMag == 0)
+            //    return -Math.PI / 2;
+            //else
+            //    return double.NaN;
+        }
 
         public static Vector3 FlatAngleBetween(Vector3 a, Vector3 b) =>
             new Vector3(
