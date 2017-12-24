@@ -39,13 +39,13 @@ namespace render
         {
             double[] arr = new double[count];
 
-            double x = 0, step = 0.1;
+            double x = 0, step = 1;
 
             for (int i = 0; i < count; i += 3, x += step)
             {
-                arr[i] = x*10;
-                arr[i + 1] = -x*10 + 100;
-                arr[i + 2] = -func(x)*25;
+                arr[i] = 10;
+                arr[i + 1] = x*10-1000;
+                arr[i + 2] = 70;
                 //arr[i] = 0;
                 //arr[i + 1] = x;
                 //arr[i + 2] = func(x);

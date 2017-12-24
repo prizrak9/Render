@@ -52,16 +52,7 @@ namespace render
 
         Vector2 GetCameraViewposition(Vector2 tan, Vector2 fov, Vector3 localPosition)
         {
-            Vector2 value = new Vector2((fov.X - tan.X) / 2 / fov.X, (fov.Y - tan.Y) / 2 / fov.Y);
-            //value += 0.5;
-
-            //if (localPosition.Y < 0)
-            //    value.X += 0.5;
-
-            //if (localPosition.Z < 0)
-            //    value.Y += 0.5;
-
-            return value;
+            return new Vector2((fov.X - tan.X) / 2 / fov.X, (fov.Y - tan.Y) / 2 / fov.Y);
         }
 
         /// <summary>
@@ -98,7 +89,7 @@ namespace render
                 point0 = RotateToCameraRotation(localPosition0, camera.rotation);
                 point1 = RotateToCameraRotation(localPosition1, camera.rotation);
 
-                // If point is located behind camera view than skip this line.
+                // If line is located behind or crosses camera view than skip this line.
                 if (point0.X >= -camera.Length || point1.X >= -camera.Length) continue;
 
                 // Get tan of local position relative to camera fov.

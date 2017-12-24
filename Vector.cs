@@ -71,16 +71,7 @@ namespace render
 
         public static double AngleBetween(Vector3 a, Vector3 b)
         {
-            double aMag = a.Magnitude, bMag = b.Magnitude;
-
-                return Math.Acos(ScalarMultiply(a, b) / aMag / bMag);
-            //if(aMag != 0 && bMag != 0)
-            //else if (aMag == 0 && bMag != 0)
-            //    return Math.PI / 2;
-            //else if (aMag != 0 && bMag == 0)
-            //    return -Math.PI / 2;
-            //else
-            //    return double.NaN;
+            return Math.Acos(ScalarMultiply(a, b) / a.Magnitude / b.Magnitude);
         }
 
         public static Vector3 FlatAngleBetween(Vector3 a, Vector3 b) =>
