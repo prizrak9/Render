@@ -9,6 +9,7 @@ namespace render
     class Render
     {
         const int depth = 4;
+
         public byte[] GetImage(Scene scene)
         {
             // Bgra32
@@ -16,27 +17,7 @@ namespace render
 
             foreach(Polyline p in scene.polyLines)
             {
-                for(int i = 3, j = 0; i < p.points.Length; i+=3, j+=3)
-                {
-                    double dx1 = p.points[j] - scene.camera.pos.X, dy1 = p.points[j + 1] - scene.camera.pos.Y, dz1 = p.points[j + 2] - scene.camera.pos.Z;
-                    if (dz1 > 0)
-                    {
-                        double x1 = scene.camera.Size.X / 2 / dz1 / Math.Tan(scene.camera.alphaX) * dx1;
-                        double x2 = scene.camera.Size.X / 2 / p.points[i + 2] / Math.Tan(scene.camera.alphaX) * p.points[i];
-                        double y1 = scene.camera.Size.Y / 2 / dz1 / Math.Tan(scene.camera.alphaY) * dy1;
-                        double y2 = scene.camera.Size.Y / 2 / p.points[i + 2] / Math.Tan(scene.camera.alphaY) * p.points[i + 1];
-                        Line((int)(scene.camera.Center.X + x1),
-                            (int)(scene.camera.Center.Y + y1),
-                            (int)(scene.camera.Center.X + x2),
-                            (int)(scene.camera.Center.Y + y2),
-                            ref arr, new Color(255, 0, 0, 255), scene.camera.Size);
-                    }
-                    /*Line((int)(scene.camera.Center.X + p.points[j]),
-                        (int)(scene.camera.Center.Y + p.points[j + 1]), 
-                        (int)(scene.camera.Center.X + p.points[i]), 
-                        (int)(scene.camera.Center.Y + p.points[i + 1]),
-                        ref arr, new Color(255, 0, 0, 255), scene.camera.Size);*/
-                }
+                DrawWire2(ref arr, p.points, scene.camera);
             }
 
             //for(int i = 0; i < arr.Length; i++)
@@ -50,10 +31,114 @@ namespace render
             return arr;
         }
 
-        void PutPixel(int i, int j, Color color, ref byte[] arr, Vector size)
+        Vector3 ProjectToCameraViewSurface(Vector3 position, Vector3 cameraRotation)
+        {
+            Vector3 local = Vector3.ProjectVectorToVector(position, cameraRotation);
+
+            return new Vector3(
+                double.IsNaN(local.X) ? 0 : (position.X < 0 ? local.X : -local.X),
+                double.IsNaN(local.Y) ? 0 : (position.Y < 0 ? local.Y : -local.Y), 
+                double.IsNaN(local.Z) ? 0 : (position.Z < 0 ? local.Z : -local.Z));
+        }
+
+        Vector3 GetLocalPosition(Vector3 position, Vector3 cameraPosition)
+        {
+            return position - cameraPosition;
+        }
+
+        Vector2 GetFlatTan(Vector3 localPosition, Vector2 cameraFov, double cameraLength)
+        {
+            return new Vector2(localPosition.Y  / localPosition.X, localPosition.Z  / localPosition.X);
+        }
+
+        Vector2 GetCameraViewposition(Vector2 tan, Vector2 fov, Vector3 localPosition)
+        {
+            return new Vector2((fov.X - tan.X) / 2 / fov.X, (fov.Y - tan.Y) / 2 / fov.Y);
+        }
+
+        /// <summary>
+        /// Transforms position in cameraView to position in bitmap.
+        /// Also reflects Y axe.
+        /// </summary>
+        /// <param name="cameraViewPosition">Position in cameraView [0;1].</param>
+        /// <param name="cameraResolution">Bitmap size.</param>
+        /// <returns>Coordinates in bitmap</returns>
+        Vector2 GetBitmapPosition(Vector2 cameraViewPosition, Vector2 cameraResolution)
+        {
+            return new Vector2(cameraViewPosition.X * cameraResolution.X, cameraResolution.Y - cameraViewPosition.Y * cameraResolution.Y);
+        }
+
+        void DrawWire2(ref byte[] buffer, double[] points, Camera camera)
+        {
+            Vector3 point0, point1;
+            Vector3 localPosition0, localPosition1;
+            Vector2 flatTan0, flatTan1;
+            Vector2 cameraViewPosition0, cameraViewPosition1;
+            Vector2 bitmapPosition0, bitmapPosition1;
+
+            for (int i = 3, j = 0; i < points.Length; i += 3, j += 3)
+            {
+                // Get points of line.
+                point0 = new Vector3(points[j], points[j + 1], points[j + 2]);
+                point1 = new Vector3(points[i], points[i + 1], points[i + 2]);
+
+                // Get local position relative to camera.
+                localPosition0 = GetLocalPosition(point0, camera.position);
+                localPosition1 = GetLocalPosition(point1, camera.position);
+
+                // Project local position to camera view.
+                point0 = ProjectToCameraViewSurface(localPosition0, camera.rotation);
+                point1 = ProjectToCameraViewSurface(localPosition1, camera.rotation);
+
+                // If line is located behind or crosses camera view than skip this line.
+                if (point0.X >= -camera.Length || point1.X >= -camera.Length) continue;
+
+                // Get tan of local position relative to camera fov.
+                flatTan0 = GetFlatTan(point0, camera.GetFov(), camera.Length);
+                flatTan1 = GetFlatTan(point1, camera.GetFov(), camera.Length);
+
+                // Transform local position to camera view position (transform local from [-inf;+inf] to [0;1]).
+                cameraViewPosition0 = GetCameraViewposition(flatTan0, camera.GetFov(), localPosition0);
+                cameraViewPosition1 = GetCameraViewposition(flatTan1, camera.GetFov(), localPosition1);
+
+                // Transform camera view position to bitmap position (camera view position*height(*width)).
+                bitmapPosition0 = GetBitmapPosition(cameraViewPosition0, camera.Size);
+                bitmapPosition1 = GetBitmapPosition(cameraViewPosition1, camera.Size);
+
+                // Build line.
+                Line((int)bitmapPosition0.X, (int)bitmapPosition0.Y, (int)bitmapPosition1.X, (int)bitmapPosition1.Y, ref buffer, new Color(255, 0, 0, 255), camera.Size);
+            }
+        }
+
+        void DrawWire(ref byte[] buffer, double[] points, Camera camera)
+        {
+            double dx, dy, dz;
+            double x1, x2, y1, y2;
+            double centX = camera.Center.X, centY = camera.Center.Y;
+            double fovX = camera.GetFov().X, fovY = camera.GetFov().Y;
+
+            for (int i = 3, j = 0; i < points.Length; i += 3, j += 3)
+            {
+                dx = points[j] - camera.position.X;
+                dy = points[j + 1] - camera.position.Y;
+                dz = points[j + 2] - camera.position.Z;
+
+                if (dz > 0)
+                {
+                    x1 = centX / dz / fovX * dx;
+                    x2 = centX / points[i + 2] / fovX * points[i];
+                    y1 = centY / dz / fovY * dy;
+                    y2 = centY / points[i + 2] / fovY * points[i + 1];
+                    Line((int)(centX + x1), (int)(centY + y1),
+                        (int)(centX + x2), (int)(centY + y2),
+                        ref buffer, new Color(255, 0, 0, 255), camera.Size);
+                }
+            }
+        }
+
+        void PutPixel(int i, int j, Color color, ref byte[] arr, Vector2 size)
         {
             int pos = (int)(i * size.X * depth + j * depth);
-            //size_t coord = posI * bitmap.width * bitmap.depth + posJ * bitmap.depth;
 
             arr[pos] = color.Blue;
             arr[++pos] = color.Green;
@@ -61,7 +146,7 @@ namespace render
             arr[++pos] = color.Alpha;
         }
 
-        void Line(int x0, int y0, int x1, int y1, ref byte[] arr, Color color, Vector size)
+        void Line(int x0, int y0, int x1, int y1, ref byte[] arr, Color color, Vector2 size)
         {
             for (double t = 0.0; t < 1.0; t += 0.01)
             {

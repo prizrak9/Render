@@ -7,9 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Image Name="image" SizeChanged="image_SizeChanged" Stretch="Fill" Margin="0,0,0,66"/>
-        <Slider Name="sliderX" HorizontalAlignment="Left" Margin="28,0,0,27" Width="169" ValueChanged="sliderX_ValueChanged" Minimum="1" Value="25" Maximum="100" Height="22" VerticalAlignment="Bottom"/>
-        <Slider Name="sliderY" HorizontalAlignment="Left" Margin="28,0,0,0" Width="169" ValueChanged="sliderY_ValueChanged" Minimum="1" Maximum="100" Value="25" Height="22" VerticalAlignment="Bottom"/>
+        <Image Name="image" SizeChanged="image_SizeChanged" Stretch="Fill"/>
 
     </Grid>
 </Window>
