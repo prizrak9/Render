@@ -39,16 +39,13 @@ namespace render
         {
             double[] arr = new double[count];
 
-            double x = 0, step = 1;
+            double x = 0, step = 0.1;
 
             for (int i = 0; i < count; i += 3, x += step)
             {
-                arr[i] = 10;
-                arr[i + 1] = x*10-1000;
-                arr[i + 2] = 70;
-                //arr[i] = 0;
-                //arr[i + 1] = x;
-                //arr[i + 2] = func(x);
+                arr[i] = 0;
+                arr[i + 1] = x * 5 - 100;
+                arr[i + 2] = func(x) * 10;
             }
 
             return arr;
@@ -63,8 +60,7 @@ namespace render
             {
                 arr[i] = x * kx;
                 arr[i + 1] = func(x * kx) * ky;
-                //arr[i + 2] = 70;
-                arr[i + 2] = 70 + i * 3.5;
+                arr[i + 2] = i - 100;
             }
 
             return arr;

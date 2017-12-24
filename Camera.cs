@@ -54,7 +54,7 @@ namespace render
         {
             Length = 1;
             this.size = size;
-            rotation = new Vector3(1, 1, 1);
+            rotation = new Vector3(1, 0.9, 1);
             fov = new Vector2(Math.Tan(angleVertical / 2), Math.Tan(size.X * Math.Tan(angleVertical / 2) / size.Y));
             position = new Vector3(-100, 0, 0);
             Center = size/2;

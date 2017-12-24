@@ -34,6 +34,7 @@ namespace render
         Vector3 RotateToCameraRotation(Vector3 position, Vector3 cameraRotation)
         {
             Vector3 local = Vector3.ProjectVectorToVector(position, cameraRotation);
+
             return new Vector3(
                 double.IsNaN(local.X) ? 0 : (position.X < 0 ? local.X : -local.X),
                 double.IsNaN(local.Y) ? 0 : (position.Y < 0 ? local.Y : -local.Y), 
