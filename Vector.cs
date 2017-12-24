@@ -34,9 +34,9 @@ namespace render
             Z = z;
         }
 
-        public Vector3 RelativeTo(Vector3 ob) =>
+        public Vector3 SubstructFrom(Vector3 ob) =>
             ob - this;
-	
+
 
 
         public static Vector3 Up => new Vector3(0, 0, 1);
@@ -66,6 +66,22 @@ namespace render
 
         public static double AngleBetween(Vector3 a, Vector3 b) =>
             Math.Acos(ScalarMultiply(a, b) / a.Magnitude / b.Magnitude);
+
+        public static Vector3 FlatAngleBetween(Vector3 a, Vector3 b) =>
+            new Vector3(
+                AngleBetween(new Vector3(a.X, 0, 0), new Vector3(b.X, 0, 0)),
+                AngleBetween(new Vector3(0, a.Y, 0), new Vector3(0, b.Y, 0)),
+                AngleBetween(new Vector3(0, 0, a.Z), new Vector3(0, 0, b.Z)));
+
+        public static Vector3 ProjectVectorToVector(Vector3 ob1, Vector3 ob2)
+        {
+            Vector3 flatAngle = FlatAngleBetween(ob1, ob2);
+
+            return new Vector3(
+                ob1.X / Math.Cos(flatAngle.X),
+                ob1.Y / Math.Cos(flatAngle.Y),
+                ob1.Z / Math.Cos(flatAngle.Z));
+        }
 
     }
 }

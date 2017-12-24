@@ -9,6 +9,7 @@ namespace render
     class Render
     {
         const int depth = 4;
+
         public byte[] GetImage(Scene scene)
         {
             // Bgra32
@@ -28,6 +29,14 @@ namespace render
 
 
             return arr;
+        }
+
+        void MakeLocalToCamera(ref double x, ref double y, ref double z, Vector3 cameraRotation)
+        {
+            Vector3 local = Vector3.ProjectVectorToVector(new Vector3(x, y, z), cameraRotation);
+            x = local.X;
+            y = local.Y;
+            z = local.Z;
         }
 
         void DrawWire(ref byte[] buffer, double[] points, Camera camera)

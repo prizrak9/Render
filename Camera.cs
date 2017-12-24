@@ -4,6 +4,9 @@ namespace render
 {
     struct Camera
     {
+        /// <summary>
+        /// Resolution of camera. Also updates Center position.
+        /// </summary>
         public Vector2 Size
         {
             get => size;
@@ -18,8 +21,15 @@ namespace render
         public Vector3 rotation;
         public Vector3 position;
 
+
         private Vector2 size;
+
+        /// <summary>
+        /// Field Of View is stored as tan of according axe.
+        /// </summary>
         private Vector2 fov;
+
+
 
         public void SetFOV(double angleVertical)
         {
