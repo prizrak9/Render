@@ -30,36 +30,56 @@ namespace render
 
             render = new Render();
 
-            scene = SceneBuilder.GenerateScene(sliderX.Value, sliderY.Value);
+            scene = SceneBuilder.GenerateScene();
+            scene.camera.position.Y = 0;
+            scene.camera.position.Z = 100;
 
             image.Source = new WriteableBitmap(1, 1, 96, 96, PixelFormats.Bgra32, null);
 
+            // Set maximum value.
+            // No need for convertions to radian.
+            slider.Maximum = Math.PI;
         }
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            scene.camera = new Camera(new Vector((int)e.NewSize.Width, (int)e.NewSize.Height, 0.0));
+            scene.camera.Size = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
             image.Source = BitmapSource.Create((int)e.NewSize.Width, (int)e.NewSize.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)e.NewSize.Width);
         }
 
-        private void sliderX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            scene = SceneBuilder.GenerateScene(sliderX.Value, sliderY?.Value ?? 1);
-            if (image.Source != null)
-            {
-                scene.camera = new Camera(new Vector((int)image.Source.Width, (int)image.Source.Height, 0.0));
-                image.Source = BitmapSource.Create((int)image.Source.Width, (int)image.Source.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.Source.Width);
-            }
-        }
+            // $ for including value in brackets.
+            // @ for ignoring special symbols
+            // also used to set output format 
+            // in exact way as it is written.
+//            Console.WriteLine($@"
+//{e.NewValue}
+//CamposX {scene.camera.position.X}
+//CamposY {scene.camera.position.Y}
+//CamposZ {scene.camera.position.Z}
+//CamupX {scene.camera.up.X}
+//CamupY {scene.camera.up.Y}
+//CamupZ {scene.camera.up.Z}
+//CamfwX {scene.camera.forward.X}
+//CamfwY {scene.camera.forward.Y}
+//CamfwZ {scene.camera.forward.Z}
+//");
+            Console.WriteLine($@"
+{e.NewValue}
+Campos {scene.camera.position}
+Camup {scene.camera.up}
+Camfw {scene.camera.forward}
+");
 
-        private void sliderY_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            scene = SceneBuilder.GenerateScene(sliderX?.Value ?? 1, sliderY.Value);
-            if (image.Source != null)
-            {
-                scene.camera = new Camera(new Vector((int)image.Source.Width, (int)image.Source.Height, 0.0));
-                image.Source = BitmapSource.Create((int)image.Source.Width, (int)image.Source.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.Source.Width);
-            }
+
+            scene.camera.up.Z = Math.Cos(e.NewValue);
+            scene.camera.up.Y = -Math.Sin(e.NewValue);
+            //scene.camera.up.Y = -Math.Sin(e.NewValue * Math.PI / 20);
+            //scene.camera.forward.X = Math.Cos(e.NewValue * Math.PI / 20);
+            //scene.camera.forward.Z = -Math.Sin(e.NewValue * Math.PI / 20);
+
+            image.Source = BitmapSource.Create((int)image.ActualWidth, (int)image.ActualHeight, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.ActualWidth);
         }
     }
 }
