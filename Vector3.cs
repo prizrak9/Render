@@ -125,11 +125,11 @@ namespace render
         /// <param name="ob1"></param>
         /// <param name="ob2"></param>
         /// <returns></returns>
-        //public static Vector3 ProjectVectorToVector(Vector3 ob1, Vector3 ob2)
-        //{
-        //    return ScalarMultiply(ob1, ob2) / ob2.Magnitude * ob2.Normalized();
+        public static double ReallyProjectVectorToVector(Vector3 ob1, Vector3 ob2)
+        {
+            return ScalarMultiply(ob1, ob2) / ob2.Magnitude;
 
-        //}
+        }
 
         #endregion
     }

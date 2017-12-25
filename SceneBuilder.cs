@@ -17,7 +17,7 @@ namespace render
                 {
                     new Polyline
                     {
-                        points = GetFunction1(Func, 1000*3)
+                        points = GetFunction1(Func, 1000*3) //горизонтальная синусоида на х=0
                     },
                     new Polyline
                     {
@@ -45,7 +45,7 @@ namespace render
             {
                 arr[i] = 0;
                 arr[i + 1] = x * 5 - 100;
-                arr[i + 2] = func(x) * 10;
+                arr[i + 2] = 100 + func(x) * 10;
             }
 
             return arr;
@@ -60,7 +60,7 @@ namespace render
             {
                 arr[i] = x * kx;
                 arr[i + 1] = func(x * kx) * ky;
-                arr[i + 2] = i - 100;
+                arr[i + 2] = 0;
             }
 
             return arr;
