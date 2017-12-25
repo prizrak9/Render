@@ -53,19 +53,26 @@ namespace render
             // @ for ignoring special symbols
             // also used to set output format 
             // in exact way as it is written.
+//            Console.WriteLine($@"
+//{e.NewValue}
+//CamposX {scene.camera.position.X}
+//CamposY {scene.camera.position.Y}
+//CamposZ {scene.camera.position.Z}
+//CamupX {scene.camera.up.X}
+//CamupY {scene.camera.up.Y}
+//CamupZ {scene.camera.up.Z}
+//CamfwX {scene.camera.forward.X}
+//CamfwY {scene.camera.forward.Y}
+//CamfwZ {scene.camera.forward.Z}
+//");
             Console.WriteLine($@"
 {e.NewValue}
-CamposX {scene.camera.position.X}
-CamposY {scene.camera.position.Y}
-CamposZ {scene.camera.position.Z}
-CamupX {scene.camera.up.X}
-CamupY {scene.camera.up.Y}
-CamupZ {scene.camera.up.Z}
-CamfwX {scene.camera.forward.X}
-CamfwY {scene.camera.forward.Y}
-CamfwZ {scene.camera.forward.Z}
+Campos {scene.camera.position}
+Camup {scene.camera.up}
+Camfw {scene.camera.forward}
 ");
-            
+
+
             scene.camera.up.Z = Math.Cos(e.NewValue);
             scene.camera.up.Y = -Math.Sin(e.NewValue);
             //scene.camera.up.Y = -Math.Sin(e.NewValue * Math.PI / 20);

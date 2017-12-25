@@ -29,6 +29,11 @@ namespace render
             return new Vector3(X / magn, Y / magn, Z / magn);
         }
 
+        public override string ToString()
+        {
+            return $"({X:G2};{Y:G2};{Z:G2})";
+        }
+
         #region Operator
 
         public static Vector3 operator /(Vector3 ob1, double ob2)
