@@ -30,6 +30,10 @@ namespace render
                     new Polyline
                     {
                         points = GetFunction(Func2, 1000*3, 60, 60)
+                    },
+                    new Polyline
+                    {
+                        points = GetFunction1(Func3, 1000*3)
                     }
                 }
             };
@@ -44,7 +48,7 @@ namespace render
             for (int i = 0; i < count; i += 3, x += step)
             {
                 arr[i] = 0;
-                arr[i + 1] = x * 5 - 100;
+                arr[i + 1] = x * 5;
                 arr[i + 2] = 100 + func(x) * 10;
             }
 
@@ -76,7 +80,7 @@ namespace render
             -1;
 
         static double Func3(double x) =>
-            10;
+            x;
 
     }
 

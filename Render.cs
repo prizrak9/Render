@@ -17,27 +17,18 @@ namespace render
 
             foreach(Polyline p in scene.polyLines)
             {
-                //DrawWire2(ref arr, p.points, scene.camera);
                 DrawWire3(ref arr, p.points, scene.camera);
             }
-
-            //for(int i = 0; i < arr.Length; i++)
-            //{
-            //    arr[i] = 50;
-            //}
-            //Line(0, 0, 100, 100, ref arr, 255, 0, 0, 255, scene.camera.size);
-
-
-
+            
             return arr;
         }
 
         
 
-        Vector3 ProjectToCaveraViewSurface(Vector3 position, Vector3 cameraFW, Vector3 cameraUP)
+        Vector3 ProjectToCameraViewSurface(Vector3 position, Vector3 cameraFW, Vector3 cameraUP)
         {
             return new Vector3(Vector3.ProjectVectorToAxe(position, cameraFW), 
-                               Vector3.ProjectVectorToAxe(position, Vector3.VectorMultiply(cameraUP, cameraFW)), 
+                               Vector3.ProjectVectorToAxe(position, cameraUP * cameraFW), 
                                Vector3.ProjectVectorToAxe(position, cameraUP));
         }
 
@@ -82,14 +73,15 @@ namespace render
                 // Get points of line.
                 point0 = new Vector3(points[j], points[j + 1], points[j + 2]);
                 point1 = new Vector3(points[i], points[i + 1], points[i + 2]);
-
+                
                 // Get local position relative to camera.
                 localPosition0 = GetLocalPosition(point0, camera.position);
                 localPosition1 = GetLocalPosition(point1, camera.position);
 
                 // Project local position to camera view.
-                point0 = ProjectToCaveraViewSurface(localPosition0, camera.forward, camera.up);
-                point1 = ProjectToCaveraViewSurface(localPosition1, camera.forward, camera.up);
+                point0 = ProjectToCameraViewSurface(localPosition0, camera.forward, camera.up);
+                point1 = ProjectToCameraViewSurface(localPosition1, camera.forward, camera.up);
+                
 
                 // If line is located behind or crosses camera view then skip this line.
                 // Length is a distance from camera position to its camera view or

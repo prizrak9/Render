@@ -43,7 +43,7 @@ namespace render
 
         public static Vector3 operator *(Vector3 ob1, Vector3 ob2)
         {
-            return new Vector3(ob1.X * ob2.Z - ob1.Z * ob2.Y, ob1.Z * ob2.X - ob1.X * ob2.Z, ob1.X * ob2.Y - ob1.Y * ob2.X);
+            return new Vector3(ob1.Y * ob2.Z - ob1.Z * ob2.Y, ob1.Z * ob2.X - ob1.X * ob2.Z, ob1.X * ob2.Y - ob1.Y * ob2.X);
         }
 
         public static Vector3 operator *(Vector3 ob1, double ob2)
