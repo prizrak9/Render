@@ -17,7 +17,8 @@ namespace render
 
             foreach(Polyline p in scene.polyLines)
             {
-                DrawWire2(ref arr, p.points, scene.camera);
+                //DrawWire2(ref arr, p.points, scene.camera);
+                DrawWire3(ref arr, p.points, scene.camera);
             }
 
             //for(int i = 0; i < arr.Length; i++)
@@ -31,13 +32,21 @@ namespace render
             return arr;
         }
 
-        Vector3 RotateToCameraRotation(Vector3 position, Vector3 cameraRotation)
+        Vector3 ProjectToCameraViewSurface(Vector3 position, Vector3 cameraRotation)
         {
             Vector3 local = Vector3.ProjectVectorToVector(position, cameraRotation);
+
             return new Vector3(
                 double.IsNaN(local.X) ? 0 : (position.X < 0 ? local.X : -local.X),
                 double.IsNaN(local.Y) ? 0 : (position.Y < 0 ? local.Y : -local.Y), 
                 double.IsNaN(local.Z) ? 0 : (position.Z < 0 ? local.Z : -local.Z));
+        }
+
+        Vector3 LocalToCameraView(Vector3 position, Vector3 cameraFW, Vector3 cameraUP)
+        {
+            return new Vector3( Vector3.ReallyProjectVectorToVector(position, cameraFW), 
+                                Vector3.ReallyProjectVectorToVector(position, Vector3.VectorMultiply(cameraUP, cameraFW)), 
+                                Vector3.ReallyProjectVectorToVector(position, cameraUP));
         }
 
         Vector3 GetLocalPosition(Vector3 position, Vector3 cameraPosition)
@@ -52,16 +61,7 @@ namespace render
 
         Vector2 GetCameraViewposition(Vector2 tan, Vector2 fov, Vector3 localPosition)
         {
-            Vector2 value = new Vector2((fov.X - tan.X) / 2 / fov.X, (fov.Y - tan.Y) / 2 / fov.Y);
-            //value += 0.5;
-
-            //if (localPosition.Y < 0)
-            //    value.X += 0.5;
-
-            //if (localPosition.Z < 0)
-            //    value.Y += 0.5;
-
-            return value;
+            return new Vector2((fov.X - tan.X) / 2 / fov.X, (fov.Y - tan.Y) / 2 / fov.Y);
         }
 
         /// <summary>
@@ -74,6 +74,48 @@ namespace render
         Vector2 GetBitmapPosition(Vector2 cameraViewPosition, Vector2 cameraResolution)
         {
             return new Vector2(cameraViewPosition.X * cameraResolution.X, cameraResolution.Y - cameraViewPosition.Y * cameraResolution.Y);
+        }
+
+        void DrawWire3(ref byte[] buffer, double[] points, Camera camera)
+        {
+            Vector3 point0, point1;
+            Vector3 localPosition0, localPosition1;
+            Vector2 flatTan0, flatTan1;
+            Vector2 cameraViewPosition0, cameraViewPosition1;
+            Vector2 bitmapPosition0, bitmapPosition1;
+
+            for (int i = 3, j = 0; i < points.Length; i += 3, j += 3)
+            {
+                // Get points of line.
+                point0 = new Vector3(points[j], points[j + 1], points[j + 2]);
+                point1 = new Vector3(points[i], points[i + 1], points[i + 2]);
+
+                // Get local position relative to camera.
+                localPosition0 = GetLocalPosition(point0, camera.position);
+                localPosition1 = GetLocalPosition(point1, camera.position);
+
+                // Project local position to camera view.
+                point0 = LocalToCameraView(localPosition0, camera.forward, camera.up);
+                point1 = LocalToCameraView(localPosition1, camera.forward, camera.up);
+
+                // If line is located behind or crosses camera view than skip this line.
+                if (point0.X <= 0 || point1.X <= 0) continue;
+
+                // Get tan of local position relative to camera fov.
+                flatTan0 = GetFlatTan(point0, camera.GetFov(), camera.Length);
+                flatTan1 = GetFlatTan(point1, camera.GetFov(), camera.Length);
+
+                // Transform local position to camera view position (transform local from [-inf;+inf] to [0;1]).
+                cameraViewPosition0 = GetCameraViewposition(flatTan0, camera.GetFov(), localPosition0);
+                cameraViewPosition1 = GetCameraViewposition(flatTan1, camera.GetFov(), localPosition1);
+
+                // Transform camera view position to bitmap position (camera view position*height(*width)).
+                bitmapPosition0 = GetBitmapPosition(cameraViewPosition0, camera.Size);
+                bitmapPosition1 = GetBitmapPosition(cameraViewPosition1, camera.Size);
+
+                // Build line.
+                Line((int)bitmapPosition0.X, (int)bitmapPosition0.Y, (int)bitmapPosition1.X, (int)bitmapPosition1.Y, ref buffer, new Color(255, 0, 0, 255), camera.Size);
+            }
         }
 
         void DrawWire2(ref byte[] buffer, double[] points, Camera camera)
@@ -95,10 +137,10 @@ namespace render
                 localPosition1 = GetLocalPosition(point1, camera.position);
 
                 // Project local position to camera view.
-                point0 = RotateToCameraRotation(localPosition0, camera.rotation);
-                point1 = RotateToCameraRotation(localPosition1, camera.rotation);
+                point0 = ProjectToCameraViewSurface(localPosition0, camera.rotation);
+                point1 = ProjectToCameraViewSurface(localPosition1, camera.rotation);
 
-                // If point is located behind camera view than skip this line.
+                // If line is located behind or crosses camera view than skip this line.
                 if (point0.X >= -camera.Length || point1.X >= -camera.Length) continue;
 
                 // Get tan of local position relative to camera fov.

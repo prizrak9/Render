@@ -27,3 +27,17 @@ C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.Proper
 C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.csproj.GenerateResource.Cache
 C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.exe
 C:\Users\Alex\Downloads\transp\Programming\Render\Render\obj\Debug\render.pdb
+C:\Users\Alex\Downloads\transp\Programming\Render\bin\Debug\render.exe.config
+C:\Users\Alex\Downloads\transp\Programming\Render\bin\Debug\render.exe
+C:\Users\Alex\Downloads\transp\Programming\Render\bin\Debug\render.pdb
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\render.csprojResolveAssemblyReference.cache
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\MainWindow.g.cs
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\App.g.cs
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\render_MarkupCompile.cache
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\render_MarkupCompile.lref
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\MainWindow.baml
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\render.g.resources
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\render.Properties.Resources.resources
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\render.csproj.GenerateResource.Cache
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\render.exe
+C:\Users\Alex\Downloads\transp\Programming\Render\obj\Debug\render.pdb

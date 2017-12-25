@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Image Name="image" SizeChanged="image_SizeChanged" Stretch="Fill"/>
+        <Image Name="image" SizeChanged="image_SizeChanged" Stretch="Fill" Margin="0,0,0,22"/>
+        <Slider HorizontalAlignment="Left" Margin="0,297,0,0" VerticalAlignment="Bottom" ValueChanged="Slider_ValueChanged" Height="22" Width="517"/>
 
     </Grid>
 </Window>

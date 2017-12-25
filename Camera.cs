@@ -30,6 +30,10 @@ namespace render
         public Vector3 rotation;
         public Vector3 position;
 
+        public Vector3 forward;
+        public Vector3 up;
+
+
 
         private Vector2 size;
 
@@ -58,6 +62,8 @@ namespace render
             fov = new Vector2(Math.Tan(angleVertical / 2), Math.Tan(size.X * Math.Tan(angleVertical / 2) / size.Y));
             position = new Vector3(-100, 0, 0);
             Center = size/2;
+            forward = new Vector3(1, 0, 0);
+            up = new Vector3(0, 0, 1);
         }
     }
 }
