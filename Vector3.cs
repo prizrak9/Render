@@ -43,7 +43,7 @@ namespace render
 
         public static Vector3 operator *(Vector3 ob1, Vector3 ob2)
         {
-            return new Vector3(ob1.X * ob2.Z - ob1.Z * ob2.Y, ob1.Z * ob2.X - ob1.X * ob2.Z, ob1.X * ob2.Y - ob1.Y * ob2.X);
+            return new Vector3(ob1.Y * ob2.Z - ob1.Z * ob2.Y, ob1.Z * ob2.X - ob1.X * ob2.Z, ob1.X * ob2.Y - ob1.Y * ob2.X);
         }
 
         public static Vector3 operator *(Vector3 ob1, double ob2)
@@ -77,7 +77,7 @@ namespace render
 
         public static Vector3 VectorMultiply(Vector3 a, Vector3 b)
         {
-            return new Vector3(a.Y * b.Z - b.Y * a.Z, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
+            return a * b;
         }
 
         public static double AngleBetween(Vector3 a, Vector3 b)

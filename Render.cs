@@ -28,7 +28,7 @@ namespace render
         Vector3 ProjectToCameraViewSurface(Vector3 position, Vector3 cameraFW, Vector3 cameraUP)
         {
             return new Vector3(Vector3.ProjectVectorToAxe(position, cameraFW), 
-                               Vector3.ProjectVectorToAxe(position, Vector3.VectorMultiply(cameraUP, cameraFW)), 
+                               Vector3.ProjectVectorToAxe(position, cameraUP * cameraFW), 
                                Vector3.ProjectVectorToAxe(position, cameraUP));
         }
 
