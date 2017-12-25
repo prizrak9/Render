@@ -19,20 +19,20 @@ namespace render
         }
 
 
-        public static Quaternion FromVector(Vector ob)
+        public static Quaternion FromVector(Vector3 ob)
         {
-            double angleBetweenVectorAndUp = Vector.AngleBetween(ob, Vector.Up);
+            double angleBetweenVectorAndUp = Vector3.AngleBetween(ob, Vector3.Up);
             double s = Math.Sin(angleBetweenVectorAndUp / 2);
-            Vector third = ob * Vector.Up;
+            Vector3 third = ob * Vector3.Up;
 
             return new Quaternion(Math.Cos(angleBetweenVectorAndUp / 2), third.X * s, third.Y * s, third.Z * s);
         }
 
-        public static Quaternion FromVector(Vector ob1, Vector ob2)
+        public static Quaternion FromVector(Vector3 ob1, Vector3 ob2)
         {
-            double angleBetween = Vector.AngleBetween(ob1, ob2);
+            double angleBetween = Vector3.AngleBetween(ob1, ob2);
             double s = Math.Sin(angleBetween / 2);
-            Vector third = ob1 * ob2;
+            Vector3 third = ob1 * ob2;
 
             return new Quaternion(Math.Cos(angleBetween / 2), third.X * s, third.Y * s, third.Z * s);
         }
