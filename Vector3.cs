@@ -31,7 +31,7 @@ namespace render
 
         public override string ToString()
         {
-            return $"({X:G2};{Y:G2};{Z:G2})";
+            return $"({X:N2};{Y:N2};{Z:N2})";
         }
 
         #region Operator
@@ -77,7 +77,7 @@ namespace render
 
         public static Vector3 VectorMultiply(Vector3 a, Vector3 b)
         {
-            return a * b;
+            return new Vector3(a.Y * b.Z - b.Y * a.Z, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
         }
 
         public static double AngleBetween(Vector3 a, Vector3 b)

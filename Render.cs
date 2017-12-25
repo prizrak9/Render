@@ -17,27 +17,7 @@ namespace render
 
             foreach(Polyline p in scene.polyLines)
             {
-<<<<<<< HEAD
-                for(int i = 3, j = 0; i < p.points.Length; i+=3, j+=3)
-                {
-                    double dx1 = p.points[j] - scene.camera.pos.X, dy1 = p.points[j + 1] - scene.camera.pos.Y, dz1 = p.points[j + 2] - scene.camera.pos.Z;
-                    if (dz1 > 0)
-                    {
-                        double x1 = scene.camera.Size.X / 2 / dz1 / Math.Tan(scene.camera.alphaX) * dx1;
-                        double x2 = scene.camera.Size.X / 2 / p.points[i + 2] / Math.Tan(scene.camera.alphaX) * p.points[i];
-                        double y1 = scene.camera.Size.Y / 2 / dz1 / Math.Tan(scene.camera.alphaY) * dy1;
-                        double y2 = scene.camera.Size.Y / 2 / p.points[i + 2] / Math.Tan(scene.camera.alphaY) * p.points[i + 1];
-                        Line((int)(scene.camera.Center.X + x1),
-                            (int)(scene.camera.Center.Y + y1),
-                            (int)(scene.camera.Center.X + x2),
-                            (int)(scene.camera.Center.Y + y2),
-                            ref arr, new Color(255, 0, 0, 255), scene.camera.Size);
-                    }
-                }
-=======
-                //DrawWire2(ref arr, p.points, scene.camera);
                 DrawWire3(ref arr, p.points, scene.camera);
->>>>>>> 3ed359f1ae5921f2923611bb764be7ee20d34540
             }
             
             return arr;
@@ -45,7 +25,7 @@ namespace render
 
         
 
-        Vector3 ProjectToCaveraViewSurface(Vector3 position, Vector3 cameraFW, Vector3 cameraUP)
+        Vector3 ProjectToCameraViewSurface(Vector3 position, Vector3 cameraFW, Vector3 cameraUP)
         {
             return new Vector3(Vector3.ProjectVectorToAxe(position, cameraFW), 
                                Vector3.ProjectVectorToAxe(position, Vector3.VectorMultiply(cameraUP, cameraFW)), 
@@ -93,14 +73,15 @@ namespace render
                 // Get points of line.
                 point0 = new Vector3(points[j], points[j + 1], points[j + 2]);
                 point1 = new Vector3(points[i], points[i + 1], points[i + 2]);
-
+                
                 // Get local position relative to camera.
                 localPosition0 = GetLocalPosition(point0, camera.position);
                 localPosition1 = GetLocalPosition(point1, camera.position);
 
                 // Project local position to camera view.
-                point0 = ProjectToCaveraViewSurface(localPosition0, camera.forward, camera.up);
-                point1 = ProjectToCaveraViewSurface(localPosition1, camera.forward, camera.up);
+                point0 = ProjectToCameraViewSurface(localPosition0, camera.forward, camera.up);
+                point1 = ProjectToCameraViewSurface(localPosition1, camera.forward, camera.up);
+                
 
                 // If line is located behind or crosses camera view then skip this line.
                 // Length is a distance from camera position to its camera view or
