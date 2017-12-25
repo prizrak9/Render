@@ -36,30 +36,39 @@ namespace render
 
             image.Source = new WriteableBitmap(1, 1, 96, 96, PixelFormats.Bgra32, null);
 
+            // Set maximum value.
+            // No need for convertions to radian.
+            slider.Maximum = Math.PI;
         }
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             scene.camera.Size = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
-//            scene.camera = new Camera(new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height));
             image.Source = BitmapSource.Create((int)e.NewSize.Width, (int)e.NewSize.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)e.NewSize.Width);
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Console.WriteLine(e.NewValue);
-            Console.WriteLine("CamposX " + scene.camera.position.X);
-            Console.WriteLine("CamposY " + scene.camera.position.Y);
-            Console.WriteLine("CamposZ " + scene.camera.position.Z);
-            Console.WriteLine("CamupX " + scene.camera.up.X);
-            Console.WriteLine("CamupY " + scene.camera.up.Y);
-            Console.WriteLine("CamupZ " + scene.camera.up.Z);
-            Console.WriteLine("CamfwX " + scene.camera.forward.X);
-            Console.WriteLine("CamfwY " + scene.camera.forward.Y);
-            Console.WriteLine("CamfwZ " + scene.camera.forward.Z);
-            //scene.camera.position.Z = e.NewValue * 10 - 100;
-            scene.camera.up.Z = Math.Cos(e.NewValue * Math.PI / 20);
-            scene.camera.up.Y = -Math.Sin(e.NewValue * Math.PI / 20);
+            // $ for including value in brackets.
+            // @ for ignoring special symbols
+            // also used to set output format 
+            // in exact way as it is written.
+            Console.WriteLine($@"
+{e.NewValue}
+CamposX {scene.camera.position.X}
+CamposY {scene.camera.position.Y}
+CamposZ {scene.camera.position.Z}
+CamupX {scene.camera.up.X}
+CamupY {scene.camera.up.Y}
+CamupZ {scene.camera.up.Z}
+CamfwX {scene.camera.forward.X}
+CamfwY {scene.camera.forward.Y}
+CamfwZ {scene.camera.forward.Z}
+");
+            
+            scene.camera.up.Z = Math.Cos(e.NewValue);
+            scene.camera.up.Y = -Math.Sin(e.NewValue);
+            //scene.camera.up.Y = -Math.Sin(e.NewValue * Math.PI / 20);
             //scene.camera.forward.X = Math.Cos(e.NewValue * Math.PI / 20);
             //scene.camera.forward.Z = -Math.Sin(e.NewValue * Math.PI / 20);
 

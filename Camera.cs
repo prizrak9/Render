@@ -18,7 +18,11 @@ namespace render
         }
 
         /// <summary>
-        /// Distance from camera position to projective surface.
+        /// Length is a distance from camera position to its camera view or
+        /// its projection surface. It is an important part of camera settings,
+        /// otherwise we cannot be sure points we want to be rendered is really rendered.
+        /// In other words we should keep a distance from the camera to avoid multiple
+        /// possible glitches.
         /// </summary>
         public double Length{ get; set; }
 

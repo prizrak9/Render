@@ -88,47 +88,19 @@ namespace render
 
 
 
-        public static Vector3 FlatAngleBetween(Vector3 a, Vector3 b) =>
-            new Vector3(
-                AngleBetween(new Vector3(a.X, 0, 0), new Vector3(b.X, 0, 0)),
-                AngleBetween(new Vector3(0, a.Y, 0), new Vector3(0, b.Y, 0)),
-                AngleBetween(new Vector3(0, 0, a.Z), new Vector3(0, 0, b.Z)));
-
-        public static Vector3 FlatCosBetween(Vector3 a, Vector3 b) =>
-            new Vector3(
-                CosBetween(new Vector3(a.X, 0, 0), new Vector3(b.X, 0, 0)),
-                CosBetween(new Vector3(0, a.Y, 0), new Vector3(0, b.Y, 0)),
-                CosBetween(new Vector3(0, 0, a.Z), new Vector3(0, 0, b.Z)));
 
 
 
 
         /// <summary>
-        /// It is wrong projection but we need right rotation to use the one below
+        /// It projects vector ob1 to vector ob2 as Scalar
         /// </summary>
-        /// <param name="ob1"></param>
-        /// <param name="ob2"></param>
-        /// <returns></returns>
-        public static Vector3 ProjectVectorToVector(Vector3 ob1, Vector3 ob2)
-        {
-            Vector3 flatCos = FlatCosBetween(ob1, ob2);
-
-            return new Vector3(
-                            ob1.X * flatCos.X,
-                            ob1.Y * flatCos.Y,
-                            ob1.Z * flatCos.Z);
-        }
-
-        /// <summary>
-        /// It projects vector ob1 to vector ob2
-        /// </summary>
-        /// <param name="ob1"></param>
-        /// <param name="ob2"></param>
-        /// <returns></returns>
-        public static double ReallyProjectVectorToVector(Vector3 ob1, Vector3 ob2)
+        /// <param name="ob1">Vector to project.</param>
+        /// <param name="ob2">Axe to project on.</param>
+        /// <returns>Coordinate on given axe.</returns>
+        public static double ProjectVectorToAxe(Vector3 ob1, Vector3 ob2)
         {
             return ScalarMultiply(ob1, ob2) / ob2.Magnitude;
-
         }
 
         #endregion
