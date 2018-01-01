@@ -19,8 +19,6 @@ namespace render
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Scene scene;
-        //Render render;
 
         public MainWindow()
         {
@@ -28,11 +26,23 @@ namespace render
 
             Prepare();
 
-
             ServiceRender.OnUpdate += ServiceRender_OnUpdate;
-            //Time.OnUpdate += Time_OnUpdate;
-            //Time.OnUpdate += async (object sender, EventArgs e) => Console.WriteLine("here");
         }
+
+        private void Prepare()
+        {
+            ServiceRender.scene = SceneBuilder.GenerateScene();
+            ServiceRender.scene.camera.position.Y = 0;
+            ServiceRender.scene.camera.position.Z = 100;
+
+
+            ServiceRender.Start(image, new Vector2(10, 10));
+
+
+            KeyDown += Input.Update.KeyDown;
+            KeyUp += Input.Update.KeyUp;
+        }
+
 
         private void ServiceRender_OnUpdate()
         {
@@ -41,47 +51,9 @@ namespace render
             ServiceRender.scene.camera.position += new Vector3(Input.GetAxe(Input.Axe.Vertical), -Input.GetAxe(Input.Axe.Horizontal), 0);
         }
 
-        private void Prepare()
-        {
-            //render = new Render();
-
-            ServiceRender.scene = SceneBuilder.GenerateScene();
-            ServiceRender.scene.camera.position.Y = 0;
-            ServiceRender.scene.camera.position.Z = 100;
-
-            //ServiceRender.im
-            //image.Source = new WriteableBitmap(1, 1, 96, 96, PixelFormats.Bgra32, null);
-            //Task.
-
-            ServiceRender.Start(image, new Vector2(10, 10));
-
-            Time.Start();
-
-            KeyDown += Input.Update.KeyDown;
-            KeyUp += Input.Update.KeyUp;
-        }
-
-
-        private void Time_OnUpdate(object sender, EventArgs e)
-        {
-            //scene.camera.position.Y -= Input.GetAxe(Input.Axe.Horizontal);
-
-            ServiceRender.scene.camera.position += new Vector3(Input.GetAxe(Input.Axe.Vertical), -Input.GetAxe(Input.Axe.Horizontal), 0);
-
-            //Console.WriteLine(Input.GetAxe(Input.Axe.Vertical));
-
-            Vector3 axe = new Vector3(1, 0, 0);
-            //double alpha = Input.GetAxe(Input.Axe.Horizontal) / Math.PI / 2;
-            //CameraRotateAround(axe, alpha);
-            //CameraRotateAround(axe, 1 / Math.PI / 2);
-
-        }
-
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ServiceRender.ViewSize = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
-            //scene.camera.Size = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
-            //image.Source = BitmapSource.Create((int)e.NewSize.Width, (int)e.NewSize.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)e.NewSize.Width);
         }
 
         private void CameraRotateAround(Vector3 axe, double angle)

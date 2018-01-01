@@ -44,7 +44,7 @@ namespace render
         {
             ServiceRender.image = image;
             ViewSize = viewSize;
-            image.Source = bitmap;
+            //image.Source = bitmap;
             stopwatch.Start();
             timer.Interval = new System.TimeSpan(0, 0, 0, 0, 1);
             timer.Tick += (object sender, System.EventArgs e) => Process();
