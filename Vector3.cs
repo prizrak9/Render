@@ -31,7 +31,7 @@ namespace render
 
         public override string ToString()
         {
-            return $"({X:N2};{Y:N2};{Z:N2})";
+            return $"({X}; {Y}; {Z})";
         }
 
         #region Operator

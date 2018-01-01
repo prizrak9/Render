@@ -10,9 +10,10 @@
             X = x;
             Y = y;
         }
+
         public override string ToString()
         {
-            return $"({X:G2};{Y:G2})";
+            return $"({X}; {Y})";
         }
 
         public static Vector2 operator /(Vector2 ob1, double ob2)
