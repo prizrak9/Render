@@ -61,6 +61,11 @@ namespace render
             return new Vector3(ob1.X - ob2.X, ob1.Y - ob2.Y, ob1.Z - ob2.Z);
         }
 
+        public static Vector3 operator +(Vector3 ob1, Vector3 ob2)
+        {
+            return new Vector3(ob1.X + ob2.X, ob1.Y + ob2.Y, ob1.Z + ob2.Z);
+        }
+
         #endregion
 
         #region Static

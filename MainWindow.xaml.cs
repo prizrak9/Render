@@ -33,13 +33,13 @@ namespace render
             scene = SceneBuilder.GenerateScene();
             scene.camera.position.Y = 0;
             scene.camera.position.Z = 100;
-            scene.camera.up = new Vector3(0, 1, 0);
 
             image.Source = new WriteableBitmap(1, 1, 96, 96, PixelFormats.Bgra32, null);
 
             // Set maximum value.
             // No need for convertions to radian.
-            slider.Maximum = Math.PI;
+            slider.Maximum = Math.PI / 2;
+            slider.Minimum = -Math.PI / 2;
         }
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -50,12 +50,15 @@ namespace render
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            //scene.camera.up.Z = Math.Cos(e.NewValue);
-            //scene.camera.up.Y = -Math.Sin(e.NewValue);
-            scene.camera.forward.X = Math.Cos(e.NewValue);
-            scene.camera.forward.Z = -Math.Sin(e.NewValue);
+            //Vector3 axe = new Vector3(1/Math.Sqrt(2), 1 / Math.Sqrt(2), 0);
+            Vector3 axe = new Vector3(1, 0, 0);
 
-// $ for including value in brackets.
+            double alpha = e.NewValue;
+            Quaternion q = new Quaternion(Math.Cos(alpha / 2), Math.Sin(alpha / 2) * axe);
+            scene.camera.up = Quaternion.Rotate(scene.camera.up, q);
+            scene.camera.forward = Quaternion.Rotate(scene.camera.forward, q);
+
+            // $ for including value in brackets. 
             // @ for ignoring special symbols
             // also used to set output format 
             // in exact way as it is written.
