@@ -28,7 +28,6 @@ namespace render
         public delegate void UpdateDelegate();
 
         public static event UpdateDelegate OnUpdate;
-        private static event UpdateDelegate OnRender = RunRender;
 
         private static Render render = new Render();
         private static Image image;
@@ -36,12 +35,10 @@ namespace render
         private static Int32Rect rect;
         private static Vector2 viewSize;
         private static Stopwatch stopwatch = new Stopwatch();
-//        private static Timer timer = new Timer();
-        private static DispatcherTimer timer = new DispatcherTimer();
+        private static DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Render);
         private static bool shouldResize;
 
 
-        static int i = 0;
 
         public static void Start(Image image, Vector2 viewSize)
         {
@@ -61,12 +58,11 @@ namespace render
             timer.Stop();
 
             OnUpdate?.Invoke();
-            OnRender?.Invoke();
+            RunRender();
 
             DeltaTime = stopwatch.Elapsed.TotalMilliseconds;
             stopwatch.Restart();
 
-            Console.WriteLine($"fps {1/DeltaTime*1000}");
             timer.Start();
         }
 

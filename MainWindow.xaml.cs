@@ -29,9 +29,16 @@ namespace render
             Prepare();
 
 
-
-            Time.OnUpdate += Time_OnUpdate;
+            ServiceRender.OnUpdate += ServiceRender_OnUpdate;
+            //Time.OnUpdate += Time_OnUpdate;
             //Time.OnUpdate += async (object sender, EventArgs e) => Console.WriteLine("here");
+        }
+
+        private void ServiceRender_OnUpdate()
+        {
+            Console.WriteLine($"fps {1 / ServiceRender.DeltaTime * 1000}");
+
+            ServiceRender.scene.camera.position += new Vector3(Input.GetAxe(Input.Axe.Vertical), -Input.GetAxe(Input.Axe.Horizontal), 0);
         }
 
         private void Prepare()

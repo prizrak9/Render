@@ -64,7 +64,6 @@
     <Compile Include="SceneBuilder.cs" />
     <Compile Include="SceneObjects.cs" />
     <Compile Include="ServiceRender.cs" />
-    <Compile Include="Time.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="Vector3.cs" />
     <Page Include="MainWindow.xaml">
