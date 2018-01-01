@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace render
 {
+
     class Render
     {
         const int depth = 4;
@@ -19,7 +15,7 @@ namespace render
             {
                 DrawWire3(ref arr, p.points, scene.camera);
             }
-            
+
             return arr;
         }
 

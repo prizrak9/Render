@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:render"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" >
+        Title="MainWindow" Height="350" Width="525"  >
     <Grid>
-        <Image Name="image" SizeChanged="image_SizeChanged" Stretch="Fill"/>
+        <Grid SizeChanged="image_SizeChanged">
+            <Image Name="image"  Stretch="None"/>
+        </Grid>
     </Grid>
 </Window>
