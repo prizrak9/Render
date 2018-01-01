@@ -27,11 +27,8 @@ namespace render
             InitializeComponent();
 
             Prepare();
-
-
-
+            
             Time.OnUpdate += Time_OnUpdate;
-
         }
 
         private void Prepare()
@@ -53,9 +50,41 @@ namespace render
 
         private void Time_OnUpdate(object sender, EventArgs e)
         {
-            Vector3 axe = new Vector3(1, 0, 0);
-            double alpha = Input.GetAxe(Input.Axe.Horizontal) / Math.PI / 2;
-            CameraRotateAround(axe, alpha);
+            Vector3 axe;
+            double alpha;
+            double move;
+
+            if (Input.GetAxe(Input.Axe.HorizontalRot) != 0)
+            {
+                axe = new Vector3(0, 0, 1);
+                alpha = -Input.GetAxe(Input.Axe.HorizontalRot) / Math.PI / 2;
+                Console.WriteLine($"Angle to rotate vertical {alpha}");
+                scene.camera.Rotate(axe, alpha);
+            }
+
+            if (Input.GetAxe(Input.Axe.VerticalRot) != 0)
+            {
+                axe = new Vector3(0, 1, 0);
+                alpha = -Input.GetAxe(Input.Axe.VerticalRot) / Math.PI / 2;
+                Console.WriteLine($"Angle to rotate vertical {alpha}");
+                scene.camera.Rotate(axe, alpha);
+            }
+
+            if (Input.GetAxe(Input.Axe.ForwardMov) != 0)
+            {
+                move = Input.GetAxe(Input.Axe.ForwardMov) * 10;
+                Console.WriteLine($"Forward step {move}");
+                scene.camera.position.X += move;
+            }
+
+            if (Input.GetAxe(Input.Axe.SideMov) != 0)
+            {
+                move = Input.GetAxe(Input.Axe.SideMov) * 10;
+                Console.WriteLine($"Forward step {move}");
+                scene.camera.position.Y -= move;
+            }
+
+            image.Source = BitmapSource.Create((int)image.ActualWidth, (int)image.ActualHeight, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.ActualWidth);
         }
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -63,23 +92,6 @@ namespace render
             scene.camera.Size = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
             image.Source = BitmapSource.Create((int)e.NewSize.Width, (int)e.NewSize.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)e.NewSize.Width);
         }
-
-        private void CameraRotateAround(Vector3 axe, double angle)
-        {
-            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * axe);
-            scene.camera.up = Quaternion.Rotate(scene.camera.up, q);
-            scene.camera.forward = Quaternion.Rotate(scene.camera.forward, q);
-
-            Console.WriteLine($"\n\n\nAngle to rotate on {angle}");
-            Console.WriteLine($"Campos {scene.camera.position}");
-            Console.WriteLine($"Camup {scene.camera.up}");
-            Console.WriteLine($"Camfw {scene.camera.forward}");
-
-            image.Source = BitmapSource.Create((int)image.ActualWidth, (int)image.ActualHeight, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.ActualWidth);
-
-        }
-
-
-
+        
     }
 }
