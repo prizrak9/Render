@@ -49,11 +49,12 @@ namespace render
             Vector3 axe;
             double alpha;
             double move;
+            double dt = ServiceRender.DeltaTime;
 
             if (Input.GetAxe(Input.Axe.HorizontalRot) != 0)
             {
                 axe = new Vector3(0, 0, 1);
-                alpha = -Input.GetAxe(Input.Axe.HorizontalRot) / Math.PI / 2;
+                alpha = -Input.GetAxe(Input.Axe.HorizontalRot) / Math.PI * dt * 2;
                 Console.WriteLine($"Angle to rotate vertical {alpha}");
                 ServiceRender.scene.camera.Rotate(axe, alpha);
             }
@@ -61,25 +62,25 @@ namespace render
             if (Input.GetAxe(Input.Axe.VerticalRot) != 0)
             {
                 axe = new Vector3(0, 1, 0);
-                alpha = -Input.GetAxe(Input.Axe.VerticalRot) / Math.PI / 2;
+                alpha = -Input.GetAxe(Input.Axe.VerticalRot) / Math.PI * dt * 2;
                 Console.WriteLine($"Angle to rotate vertical {alpha}");
                 ServiceRender.scene.camera.Rotate(axe, alpha);
             }
 
             if (Input.GetAxe(Input.Axe.ForwardMov) != 0)
             {
-                move = Input.GetAxe(Input.Axe.ForwardMov) * 10;
+                move = Input.GetAxe(Input.Axe.ForwardMov) * dt * 40;
                 Console.WriteLine($"Forward step {move}");
                 ServiceRender.scene.camera.position.X += move;
             }
 
             if (Input.GetAxe(Input.Axe.SideMov) != 0)
             {
-                move = Input.GetAxe(Input.Axe.SideMov) * 10;
+                move = Input.GetAxe(Input.Axe.SideMov) * dt * 40;
                 Console.WriteLine($"Forward step {move}");
                 ServiceRender.scene.camera.position.Y -= move;
             }
-            Console.WriteLine($"fps {1 / ServiceRender.DeltaTime * 1000}");
+            Console.WriteLine($"fps {1 / ServiceRender.DeltaTime }");
 
             //ServiceRender.scene.camera.position += new Vector3(Input.GetAxe(Input.Axe.Vertical), -Input.GetAxe(Input.Axe.Horizontal), 0);
         }

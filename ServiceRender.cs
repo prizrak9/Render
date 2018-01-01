@@ -60,7 +60,7 @@ namespace render
             OnUpdate?.Invoke();
             RunRender();
 
-            DeltaTime = stopwatch.Elapsed.TotalMilliseconds;
+            DeltaTime = stopwatch.Elapsed.TotalSeconds;
             stopwatch.Restart();
 
             timer.Start();
