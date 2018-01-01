@@ -46,9 +46,42 @@ namespace render
 
         private void ServiceRender_OnUpdate()
         {
+            Vector3 axe;
+            double alpha;
+            double move;
+
+            if (Input.GetAxe(Input.Axe.HorizontalRot) != 0)
+            {
+                axe = new Vector3(0, 0, 1);
+                alpha = -Input.GetAxe(Input.Axe.HorizontalRot) / Math.PI / 2;
+                Console.WriteLine($"Angle to rotate vertical {alpha}");
+                ServiceRender.scene.camera.Rotate(axe, alpha);
+            }
+
+            if (Input.GetAxe(Input.Axe.VerticalRot) != 0)
+            {
+                axe = new Vector3(0, 1, 0);
+                alpha = -Input.GetAxe(Input.Axe.VerticalRot) / Math.PI / 2;
+                Console.WriteLine($"Angle to rotate vertical {alpha}");
+                ServiceRender.scene.camera.Rotate(axe, alpha);
+            }
+
+            if (Input.GetAxe(Input.Axe.ForwardMov) != 0)
+            {
+                move = Input.GetAxe(Input.Axe.ForwardMov) * 10;
+                Console.WriteLine($"Forward step {move}");
+                ServiceRender.scene.camera.position.X += move;
+            }
+
+            if (Input.GetAxe(Input.Axe.SideMov) != 0)
+            {
+                move = Input.GetAxe(Input.Axe.SideMov) * 10;
+                Console.WriteLine($"Forward step {move}");
+                ServiceRender.scene.camera.position.Y -= move;
+            }
             Console.WriteLine($"fps {1 / ServiceRender.DeltaTime * 1000}");
 
-            ServiceRender.scene.camera.position += new Vector3(Input.GetAxe(Input.Axe.Vertical), -Input.GetAxe(Input.Axe.Horizontal), 0);
+            //ServiceRender.scene.camera.position += new Vector3(Input.GetAxe(Input.Axe.Vertical), -Input.GetAxe(Input.Axe.Horizontal), 0);
         }
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -56,20 +89,7 @@ namespace render
             ServiceRender.ViewSize = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
         }
 
-        private void CameraRotateAround(Vector3 axe, double angle)
-        {
-            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * axe);
-            ServiceRender.scene.camera.up = Quaternion.Rotate(ServiceRender.scene.camera.up, q);
-            ServiceRender.scene.camera.forward = Quaternion.Rotate(ServiceRender.scene.camera.forward, q);
-
-            //Console.WriteLine($"\n\n\nAngle to rotate on {angle}");
-            //Console.WriteLine($"Campos {ServiceRender.scene.camera.position}");
-            //Console.WriteLine($"Camup {ServiceRender.scene.camera.up}");
-            //Console.WriteLine($"Camfw {ServiceRender.scene.camera.forward}");
-
-            //image.Source = BitmapSource.Create((int)image.ActualWidth, (int)image.ActualHeight, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.ActualWidth);
-
-        }
+       
 
 
 
