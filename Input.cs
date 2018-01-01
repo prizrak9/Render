@@ -19,11 +19,11 @@ namespace render
         {
             public static void KeyDown(object sender, KeyEventArgs e)
             {
-                if (Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyUp(Key.Left))
+                if (Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.Left))
                 {
                     HorizontalAxe.left = 1;
                 }
-                if (Keyboard.IsKeyDown(Key.D) || Keyboard.IsKeyUp(Key.Right))
+                if (Keyboard.IsKeyDown(Key.D) || Keyboard.IsKeyDown(Key.Right))
                 {
                     HorizontalAxe.right = 1;
                 }
