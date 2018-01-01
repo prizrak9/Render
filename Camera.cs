@@ -46,7 +46,20 @@ namespace render
         /// </summary>
         private Vector2 fov;
 
+        //private Quaternion rotation1;
 
+        //{
+        //    get => rotation1;
+        //    set
+        //    {
+        //        rotation1 = value;
+        //        Up = Quaternion.Rotate(Up, value);
+        //        Forward = Quaternion.Rotate(Forward, value);
+        //    }
+        //}
+
+        //public Vector3 Up { get; private set; }
+        //public Vector3 Forward { get; private set; }
 
         public void SetFOV(double angleVertical)
         {

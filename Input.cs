@@ -60,7 +60,7 @@ namespace render
                     }
                 case Axe.Vertical:
                     {
-                        return HorizontalAxe.GetValue();
+                        return VerticalAxe.GetValue();
                     }
                 default:
                     {
