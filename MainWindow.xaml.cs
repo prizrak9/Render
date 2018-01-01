@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -27,7 +26,16 @@ namespace render
         {
             InitializeComponent();
 
+            Prepare();
 
+
+
+            Time.OnUpdate += Time_OnUpdate;
+
+        }
+
+        private void Prepare()
+        {
             render = new Render();
 
             scene = SceneBuilder.GenerateScene();
@@ -36,10 +44,18 @@ namespace render
 
             image.Source = new WriteableBitmap(1, 1, 96, 96, PixelFormats.Bgra32, null);
 
-            // Set maximum value.
-            // No need for convertions to radian.
-            slider.Maximum = Math.PI / 2;
-            slider.Minimum = -Math.PI / 2;
+            Time.Start();
+
+            KeyDown += Input.Update.KeyDown;
+            KeyUp += Input.Update.KeyUp;
+        }
+
+
+        private void Time_OnUpdate(object sender, EventArgs e)
+        {
+            Vector3 axe = new Vector3(1, 0, 0);
+            double alpha = Input.GetAxe(Input.Axe.Horizontal) / Math.PI / 2;
+            CameraRotateAround(axe, alpha);
         }
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -48,28 +64,22 @@ namespace render
             image.Source = BitmapSource.Create((int)e.NewSize.Width, (int)e.NewSize.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)e.NewSize.Width);
         }
 
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void CameraRotateAround(Vector3 axe, double angle)
         {
-            //Vector3 axe = new Vector3(1/Math.Sqrt(2), 1 / Math.Sqrt(2), 0);
-            Vector3 axe = new Vector3(1, 0, 0);
-
-            double alpha = e.NewValue;
-            Quaternion q = new Quaternion(Math.Cos(alpha / 2), Math.Sin(alpha / 2) * axe);
+            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * axe);
             scene.camera.up = Quaternion.Rotate(scene.camera.up, q);
             scene.camera.forward = Quaternion.Rotate(scene.camera.forward, q);
 
-            // $ for including value in brackets. 
-            // @ for ignoring special symbols
-            // also used to set output format 
-            // in exact way as it is written.
-            Console.WriteLine($@"
-{e.NewValue}
-Campos {scene.camera.position}
-Camup {scene.camera.up}
-Camfw {scene.camera.forward}
-");
+            Console.WriteLine($"\n\n\nAngle to rotate on {angle}");
+            Console.WriteLine($"Campos {scene.camera.position}");
+            Console.WriteLine($"Camup {scene.camera.up}");
+            Console.WriteLine($"Camfw {scene.camera.forward}");
 
             image.Source = BitmapSource.Create((int)image.ActualWidth, (int)image.ActualHeight, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.ActualWidth);
+
         }
+
+
+
     }
 }

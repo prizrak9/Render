@@ -5,14 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:render"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" >
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="143*"/>
-            <RowDefinition Height="32"/>
-        </Grid.RowDefinitions>
-        <Image Name="image" SizeChanged="image_SizeChanged" Stretch="Fill" Margin="0,0,0,1"/>
-        <Slider Name="slider" VerticalAlignment="Bottom" ValueChanged="Slider_ValueChanged" Height="22" Grid.Row="1" />
-
+        <Image Name="image" SizeChanged="image_SizeChanged" Stretch="Fill"/>
     </Grid>
 </Window>
