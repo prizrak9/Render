@@ -80,19 +80,6 @@ namespace render
         }
 
         #endregion
-
-
-        /*
-         public static Quaternion FromVector(Vector3 ob)
-        {
-            double angleBetweenVectorAndUp = Vector3.AngleBetween(ob, Vector3.Up);
-            double s = Math.Sin(angleBetweenVectorAndUp / 2);
-            Vector3 third = ob * Vector3.Up;
-
-            return new Quaternion(Math.Cos(angleBetweenVectorAndUp / 2), third.X * s, third.Y * s, third.Z * s);
-        }
-
         
-        */
     }
 }

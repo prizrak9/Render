@@ -50,21 +50,12 @@ namespace render
             Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * (forward * up));
             up = Quaternion.Rotate(up, q).Normalized();
             forward = Quaternion.Rotate(forward, q).Normalized();
-            Console.WriteLine($"Cam FW magn {forward.Magnitude}\nCam UP magn {up.Magnitude}");
         }
 
         public void RotateH(double angle)
         {
             Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * up);
             forward = Quaternion.Rotate(forward, q).Normalized();
-            Console.WriteLine($"Cam FW magn {forward.Magnitude}\nCam UP magn {up.Magnitude}");
-        }
-
-        public void Rotate(Vector3 axe, double angle)
-        {
-            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * axe);
-            up = Quaternion.Rotate(up, q);
-            forward = Quaternion.Rotate(forward, q);
         }
 
         public void UpdateFOV()
