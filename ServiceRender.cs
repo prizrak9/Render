@@ -52,7 +52,6 @@ namespace render
             timer.Start();
         }
 
-        
         public static void Process()
         {
             timer.Stop();
@@ -65,8 +64,6 @@ namespace render
 
             timer.Start();
         }
-
-
 
         private static void Resize()
         {

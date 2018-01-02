@@ -2,7 +2,7 @@
 
 namespace render
 {
-    struct Vector3
+    public class Vector3
     {
         public static Vector3 Up => new Vector3(0, 0, 1);
         public static Vector3 Left => new Vector3(0, 1, 0);

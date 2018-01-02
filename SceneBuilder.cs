@@ -13,31 +13,73 @@ namespace render
             return new Scene
             {
                 camera = new Camera(new Vector2(640, 480)),
-                polyLines = new Polyline[]
+                objects = new SceneObject[]
                 {
-                    new Polyline
+                    new SceneObject
                     {
-                        points = GetFunction1(Func, 1000*3) //горизонтальная синусоида на х=0
+                        mesh = GetFunction2(GetFunction1, Func, 1000*3)
                     },
-                    new Polyline
+                    new SceneObject
                     {
-                        points = GetFunction(Func, 1000*3, 60, 60)
+                        mesh = GetFunction2(GetFunction, Func, 1000*3)
                     },
-                    new Polyline
+                    new SceneObject
                     {
-                        points = GetFunction(Func1, 1000*3, 60, 60)
+                        mesh = GetFunction2(GetFunction, Func1, 1000*3)
                     },
-                    new Polyline
+                    new SceneObject
                     {
-                        points = GetFunction(Func2, 1000*3, 60, 60)
+                        mesh = GetFunction2(GetFunction, Func2, 1000*3)
                     },
-                    new Polyline
+                    new SceneObject
                     {
-                        points = GetFunction1(Func3, 1000*3)
-                    }
+                        mesh = GetFunction2(GetFunction1,Func3, 1000*3)
+                    },
                 }
+                //polyLines = new Polyline[]
+                //{
+                //    new Polyline
+                //    {
+                //        points = GetFunction1(Func, 1000*3) //горизонтальная синусоида на х=0
+                //    },
+                //    new Polyline
+                //    {
+                //        points = GetFunction(Func, 1000*3, 60, 60)
+                //    },
+                //    new Polyline
+                //    {
+                //        points = GetFunction(Func1, 1000*3, 60, 60)
+                //    },
+                //    new Polyline
+                //    {
+                //        points = GetFunction(Func2, 1000*3, 60, 60)
+                //    },
+                //    new Polyline
+                //    {
+                //        points = GetFunction1(Func3, 1000*3)
+                //    }
+                //}
             };
         }
+
+
+        
+
+        static MeshWire GetFunction2(Func<Func<double, double>, int, double[]> func, Func<double, double>func1, int count)
+        {
+            MeshWire mesh = new MeshWire();
+
+            mesh.points = func(func1, count);
+            mesh.links = new int[(mesh.points.Length - 1) / 3][];
+
+            for (int i = 0; i < mesh.links.Length; i++)
+            {
+                mesh.links[i] = new int[2] { i, i + 1 };
+            }
+
+            return mesh;
+        }
+
 
         static double[] GetFunction1(Func<double, double> func, int count)
         {
@@ -54,7 +96,7 @@ namespace render
 
             return arr;
         }
-        static double[] GetFunction(Func<double, double> func, int count, double kx, double ky)
+        static double[] GetFunction(Func<double, double> func, int count)
         {
             double[] arr = new double[count];
 
@@ -62,8 +104,8 @@ namespace render
 
             for(int i = 0; i < count; i+=3, x+=step)
             {
-                arr[i] = x * kx;
-                arr[i + 1] = func(x * kx) * ky;
+                arr[i] = x * 60;
+                arr[i + 1] = func(x * 60) * 60;
                 arr[i + 2] = 0;
             }
 

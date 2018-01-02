@@ -10,7 +10,9 @@ namespace render
     {
         public Camera camera;
 
-        public Polyline[] polyLines;
+        public SceneObject[] objects;
+
+        //public Polyline[] polyLines;
 
 
 

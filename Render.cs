@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace render
 {
 
@@ -11,9 +12,9 @@ namespace render
             // Bgra32
             byte[] arr = new byte[(int)(scene.camera.Size.X * scene.camera.Size.Y * depth)];
 
-            foreach(Polyline p in scene.polyLines)
+            foreach (SceneObject p in scene.objects)
             {
-                DrawWire3(ref arr, p.points, scene.camera);
+                DrawWire4(ref arr, p, scene.camera);
             }
 
             return arr;
@@ -108,6 +109,48 @@ namespace render
             }
         }
 
+        void DrawWire4(ref byte[] buffer, SceneObject obj, Camera camera)
+        {
+            Vector3 point0;
+            Vector3 localPosition0;
+            Vector2 flatTan0;
+            Vector2 cameraViewPosition0;
+
+            Vector2[] temp = new Vector2[(obj.mesh.points.Length)/3];
+
+            for (int i = 0; i < obj.mesh.points.Length; i += 3)
+            {
+                point0 = new Vector3(obj.mesh.points[i], obj.mesh.points[i + 1], obj.mesh.points[i + 2]);
+                localPosition0 = GetLocalPosition(point0, camera.position);
+                point0 = ProjectToCameraViewSurface(localPosition0, camera.forward, camera.up);
+
+                if (point0.X <= camera.Length) continue;
+
+                flatTan0 = GetFlatTan(point0);
+                cameraViewPosition0 = GetCameraViewPosition(flatTan0, camera.GetFov());
+                temp[i/3] = GetBitmapPosition(cameraViewPosition0, camera.Size);
+            }
+
+            int[][] links = (obj.mesh as MeshWire).links;
+
+            for(int i = 0; i < links.GetLength(0); i++)
+            {
+                Vector2 p1 = temp[links[i][0]], p2 = temp[links[i][1]];
+                if(p1!=null && p2 != null)
+                {
+                    if(!(p1.X < 0 && p2.X < 0 || p1.X > camera.Size.X && p2.X > camera.Size.X ||
+                        p1.Y < 0 && p2.Y < 0 || p1.Y > camera.Size.Y && p2.Y > camera.Size.Y))
+                    {
+                        Line((int)p1.X, (int)p1.Y,
+                            (int)p2.X, (int)p2.Y,
+                            ref buffer, new Color(255, 0, 0, 255), camera.Size);
+                    }
+
+                }
+            }
+
+        }
+
 
         void PutPixel(int i, int j, Color color, ref byte[] arr, Vector2 size)
         {
@@ -121,12 +164,17 @@ namespace render
 
         void Line(int x0, int y0, int x1, int y1, ref byte[] arr, Color color, Vector2 size)
         {
-            for (double t = 0.0; t < 1.0; t += 0.01)
+
+            double step = 1 / Math.Sqrt(Math.Pow(x1 - x0, 2) + Math.Pow(y1 - y0, 2));
+            for (double t = 0.0; t < 1.0; t = t+step > 1.0 ? 1.0 : t + step)
             {
                 int x = (int)(x0 * (1.0 - t) + x1 * t);
                 int y = (int)(size.Y - (y0 * (1.0 - t) + y1 * t)) - 1;
+
                 if (!(y < 0 || y >= size.Y || x < 0 || x >= size.X))
+                {
                     PutPixel(y, x, color, ref arr, size);
+                }
             }
         }
     }

@@ -55,7 +55,7 @@ namespace render
             {
                 axe = new Vector3(0, 0, 1);
                 alpha = -Input.GetAxe(Input.Axe.HorizontalRot) / Math.PI * dt * 2;
-                Console.WriteLine($"Angle to rotate vertical {alpha}");
+                Console.WriteLine($"Angle to rotate horizontal {alpha}");
                 ServiceRender.scene.camera.Rotate(axe, alpha);
             }
 
@@ -77,7 +77,7 @@ namespace render
             if (Input.GetAxe(Input.Axe.SideMov) != 0)
             {
                 move = Input.GetAxe(Input.Axe.SideMov) * dt * 40;
-                Console.WriteLine($"Forward step {move}");
+                Console.WriteLine($"Side step {move}");
                 ServiceRender.scene.camera.position.Y -= move;
             }
             Console.WriteLine($"fps {1 / ServiceRender.DeltaTime }");
