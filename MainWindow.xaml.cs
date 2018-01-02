@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +19,6 @@ namespace render
     /// </summary>
     public partial class MainWindow : Window
     {
-        Scene scene;
-        Render render;
 
         public MainWindow()
         {
@@ -42,6 +40,7 @@ namespace render
             KeyDown += Input.Update.KeyDown;
             KeyUp += Input.Update.KeyUp;
         }
+
 
         private void ServiceRender_OnUpdate()
         {
@@ -122,6 +121,5 @@ namespace render
             //scene.camera.Size = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
             ServiceRender.ViewSize = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
         }
-        
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Input;
 
 namespace render
@@ -50,11 +50,12 @@ namespace render
 
             public static void KeyDown(object sender, KeyEventArgs e)
             {
-                if (isDown(Key.Left))RotationHorizontalAxe.left = 1;
-                if (isDown(Key.Right))RotationHorizontalAxe.right = 1;
+                if (isDown(Key.Left)) RotationHorizontalAxe.left = 1;
+                if (isDown(Key.Right)) RotationHorizontalAxe.right = 1;
 
-                if (isDown(Key.Up))RotationVerticalAxe.up = 1;
-                if (isDown(Key.Down))RotationVerticalAxe.down = 1;
+                if (isDown(Key.Up)) RotationVerticalAxe.up = 1;
+                if (isDown(Key.Down)) RotationVerticalAxe.down = 1;
+
 
                 if (isDown(Key.W)) MovementForwardAxe.forward = 1;
                 if (isDown(Key.S)) MovementForwardAxe.backward = 1;
@@ -66,6 +67,7 @@ namespace render
 
             public static void KeyUp(object sender, KeyEventArgs e)
             {
+
                 if (isUp(Key.Left))RotationHorizontalAxe.left = 0;
                 if (isUp(Key.Right))RotationHorizontalAxe.right = 0;
 
