@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace render
 {
 
-    struct Color
+    class Color
     {
         public byte Blue { get; set; }
         public byte Green { get; set; }
@@ -23,8 +23,28 @@ namespace render
         }
     }
 
-    struct Polyline
+    public class SceneObject
+    {
+        public Mesh mesh;
+    }
+
+    public abstract class Mesh
     {
         public double[] points;
     }
+
+    public class MeshWire : Mesh
+    {
+        public int[][] links;
+    }
+
+    public class MeshFilled : Mesh
+    {
+        public int[][] links;
+    }
+
+    //public class Polyline
+    //{
+    //    public double[] points;
+    //}
 }
