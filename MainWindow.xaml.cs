@@ -32,8 +32,6 @@ namespace render
         private void Prepare()
         {
             ServiceRender.scene = SceneBuilder.GenerateScene();
-            ServiceRender.scene.camera.position.Y = 0;
-            ServiceRender.scene.camera.position.Z = 100;
 
             ServiceRender.Start(image, new Vector2(10, 10));
 
