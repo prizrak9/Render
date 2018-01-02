@@ -33,6 +33,22 @@ namespace render
 
         private void Prepare()
         {
+            Vector3 aa = new Vector3(0.70710678, 0.70710678, 0);
+            Vector3 bb = new Vector3(0, 1, 0);
+            Quaternion rr = Quaternion.BetweenVectors(new Vector3(1, 0, 0), aa);
+
+            double angleBetween = Vector3.AngleBetween(new Vector3(1, 0, 0), aa);
+            double s = Math.Sin(angleBetween / 2);
+            Vector3 third = new Vector3(1, 0, 0) * aa;
+
+            Console.WriteLine($"Q {Math.Cos(angleBetween / 2)} {third} {s}");
+
+            Console.WriteLine($"Quat {rr.s} {rr.v}");
+            Console.WriteLine($"Quat {rr.s} {rr.v}");
+            Console.WriteLine($"After rot {Quaternion.Rotate(aa, rr)}");
+            Console.WriteLine($"Axe after rot {Quaternion.Rotate(bb, rr)}");
+
+
             render = new Render();
 
             scene = SceneBuilder.GenerateScene();
@@ -56,32 +72,26 @@ namespace render
 
             if (Input.GetAxe(Input.Axe.HorizontalRot) != 0)
             {
-                axe = new Vector3(0, 0, 1);
                 alpha = -Input.GetAxe(Input.Axe.HorizontalRot) / Math.PI / 2;
-                Console.WriteLine($"Angle to rotate vertical {alpha}");
-                scene.camera.Rotate(axe, alpha);
+                scene.camera.RotateH(alpha);
             }
 
             if (Input.GetAxe(Input.Axe.VerticalRot) != 0)
             {
-                axe = new Vector3(0, 1, 0);
-                alpha = -Input.GetAxe(Input.Axe.VerticalRot) / Math.PI / 2;
-                Console.WriteLine($"Angle to rotate vertical {alpha}");
-                scene.camera.Rotate(axe, alpha);
+                alpha = Input.GetAxe(Input.Axe.VerticalRot) / Math.PI / 2;
+                scene.camera.RotateV(alpha);
             }
 
             if (Input.GetAxe(Input.Axe.ForwardMov) != 0)
             {
                 move = Input.GetAxe(Input.Axe.ForwardMov) * 10;
-                Console.WriteLine($"Forward step {move}");
-                scene.camera.position.X += move;
+                scene.camera.position += scene.camera.forward * move;
             }
 
             if (Input.GetAxe(Input.Axe.SideMov) != 0)
             {
                 move = Input.GetAxe(Input.Axe.SideMov) * 10;
-                Console.WriteLine($"Forward step {move}");
-                scene.camera.position.Y -= move;
+                scene.camera.position += scene.camera.forward * scene.camera.up * move;
             }
 
             image.Source = BitmapSource.Create((int)image.ActualWidth, (int)image.ActualHeight, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.ActualWidth);

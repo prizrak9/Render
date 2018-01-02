@@ -14,6 +14,7 @@ namespace render
             {
                 Center = value / 2;
                 size = value;
+                UpdateFOV();
             }
         }
 
@@ -37,8 +38,6 @@ namespace render
         public Vector3 forward;
         public Vector3 up;
 
-
-
         private Vector2 size;
 
         /// <summary>
@@ -46,17 +45,30 @@ namespace render
         /// </summary>
         private Vector2 fov;
 
-        public void Rotate(Vector3 axe, double angle)
+        public void RotateV(double angle)
         {
-            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * axe);
-            up = Quaternion.Rotate(up, q);
-            forward = Quaternion.Rotate(forward, q);
+            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * (forward * up));
+            up = Quaternion.Rotate(up, q).Normalized();
+            forward = Quaternion.Rotate(forward, q).Normalized();
+            Console.WriteLine($"Cam FW magn {forward.Magnitude}\nCam UP magn {up.Magnitude}");
         }
 
+        public void RotateH(double angle)
+        {
+            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * up);
+            forward = Quaternion.Rotate(forward, q).Normalized();
+            Console.WriteLine($"Cam FW magn {forward.Magnitude}\nCam UP magn {up.Magnitude}");
+        }
+
+
+        public void UpdateFOV()
+        {
+            fov.X = size.X * fov.Y / size.Y;
+        }
         public void SetFOV(double angleVertical)
         {
             fov.Y = Math.Tan(angleVertical / 2);
-            fov.X = Math.Tan(size.X * fov.Y / size.Y);
+            fov.X = size.X * fov.Y / size.Y;
         }
         public Vector2 GetFov()
         {

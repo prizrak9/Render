@@ -30,6 +30,11 @@ namespace render
             v = new Vector3(vv.X, vv.Y, vv.Z);
         }
 
+        public override string ToString()
+        {
+            return $"{s}; {v}";
+        }
+
         #region Operator
 
         public static Quaternion operator +(Quaternion ob1, Quaternion ob2)
@@ -53,7 +58,25 @@ namespace render
 
         public static Vector3 Rotate(Vector3 v, Quaternion q)
         {
-            return (q * new Quaternion(v) * q.Inverse).v;
+            if (q.SquareMagnitude > 0)
+                return (q * new Quaternion(v) * q.Inverse).v;
+            else
+                Console.WriteLine("Strange q");
+            return v;
+        }
+
+        public static Quaternion BetweenVectors(Vector3 ob1, Vector3 ob2)
+        {
+            ob1 = ob1.Normalized();
+            ob2 = ob2.Normalized();
+
+            double angleBetween = Vector3.AngleBetween(ob1, ob2);
+            if (angleBetween < 0.001)
+                return new Quaternion(1, 0, 0, 0);
+            double s = Math.Sin(angleBetween / 2);
+            Vector3 third = (ob1 * ob2).Normalized();
+
+            return new Quaternion(Math.Cos(angleBetween / 2), third * s);
         }
 
         #endregion
@@ -69,14 +92,7 @@ namespace render
             return new Quaternion(Math.Cos(angleBetweenVectorAndUp / 2), third.X * s, third.Y * s, third.Z * s);
         }
 
-        public static Quaternion FromVector(Vector3 ob1, Vector3 ob2)
-        {
-            double angleBetween = Vector3.AngleBetween(ob1, ob2);
-            double s = Math.Sin(angleBetween / 2);
-            Vector3 third = ob1 * ob2;
-
-            return new Quaternion(Math.Cos(angleBetween / 2), third.X * s, third.Y * s, third.Z * s);
-        }
+        
         */
     }
 }
