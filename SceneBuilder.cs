@@ -17,10 +17,6 @@ namespace render
                 {
                     new SceneObject
                     {
-                        mesh = GetFunction2(GetFunction1, Func, 1000*3)
-                    },
-                    new SceneObject
-                    {
                         mesh = GetFunction2(GetFunction, Func, 1000*3)
                     },
                     new SceneObject
@@ -32,38 +28,128 @@ namespace render
                         mesh = GetFunction2(GetFunction, Func2, 1000*3)
                     },
                     new SceneObject
-                    {
-                        mesh = GetFunction2(GetFunction1,Func3, 1000*3)
+                    {//Z
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-400, 100, 750), new Vector3(-400, -400, 750), new Vector3(400, 100, 750), new Vector3(400, -400, 750), })
+                    },
+                    new SceneObject
+                    {//-Z
+                        mesh = GetPolyline(new Vector3[] {new Vector3(400, 100, -750), new Vector3(400, -400, -750), new Vector3(-400, 100, -750), new Vector3(-400, -400, -750), })
+                    },
+                    new SceneObject
+                    {//-Z -
+                        mesh = GetPolyline(new Vector3[] {new Vector3(0, 400, -750), new Vector3(0, 250, -750),})
+                    },
+                    new SceneObject
+                    {//Y1
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-100, 750, 400), new Vector3(150, 750, 0), new Vector3(150, 750, -400),})
+                    },
+                    new SceneObject
+                    {//Y2
+                        mesh = GetPolyline(new Vector3[] {new Vector3(400, 750, 400), new Vector3(150, 750, 0),})
+                    },
+                    new SceneObject
+                    {//-Y1
+                        mesh = GetPolyline(new Vector3[] {new Vector3(100, -750, 400), new Vector3(-150, -750, 0), new Vector3(-150, -750, -400),})
+                    },
+                    new SceneObject
+                    {//-Y2
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-400, -750, 400), new Vector3(-150, -750, 0),})
+                    },
+                    new SceneObject
+                    {//-Y -
+                        mesh = GetPolyline(new Vector3[] {new Vector3(400, -750, 0), new Vector3(250, -750, 0),})
+                    },
+                    new SceneObject
+                    {//X1
+                        mesh = GetPolyline(new Vector3[] {new Vector3(750, 100, 400), new Vector3(750, -400, -400),})
+                    },
+                    new SceneObject
+                    {//X2
+                        mesh = GetPolyline(new Vector3[] {new Vector3(750, -400, 400), new Vector3(750, 100, -400),})
+                    },
+                    new SceneObject
+                    {//-X1
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-750, -100, 400), new Vector3(-750, 400, -400),})
+                    },
+                    new SceneObject
+                    {//-X2
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-750, 400, 400), new Vector3(-750, -100, -400),})
+                    },
+                    new SceneObject
+                    {//-X -
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-750, -400, 0), new Vector3(-750, -250, 0),})
+                    },
+                    new SceneObject
+                    {//UP
+                        mesh = GetPolygon(new Vector3[] {new Vector3(-500, 500, 750), new Vector3(500, 500, 750), new Vector3(500, -500, 750), new Vector3(-500, -500, 750),})
+                    },
+                    new SceneObject
+                    {//DOWN
+                        mesh = GetPolygon(new Vector3[] {new Vector3(-500, 500, -750), new Vector3(500, 500, -750), new Vector3(500, -500, -750), new Vector3(-500, -500, -750),})
+                    },
+                    new SceneObject
+                    {//N
+                        mesh = GetPolygon(new Vector3[] {new Vector3(750, 500, 500), new Vector3(750, 500, -500), new Vector3(750, -500, -500), new Vector3(750, -500, 500),})
+                    },
+                    new SceneObject
+                    {//S
+                        mesh = GetPolygon(new Vector3[] {new Vector3(-750, 500, 500), new Vector3(-750, 500, -500), new Vector3(-750, -500, -500), new Vector3(-750, -500, 500),})
+                    },
+                    new SceneObject
+                    {//W
+                        mesh = GetPolygon(new Vector3[] {new Vector3(500, 750, 500), new Vector3(500, 750, -500), new Vector3(-500, 750, -500), new Vector3(-500, 750, 500),})
+                    },
+                    new SceneObject
+                    {//E
+                        mesh = GetPolygon(new Vector3[] {new Vector3(500, -750, 500), new Vector3(500, -750, -500), new Vector3(-500, -750, -500), new Vector3(-500, -750, 500),})
                     },
                 }
-                //polyLines = new Polyline[]
-                //{
-                //    new Polyline
-                //    {
-                //        points = GetFunction1(Func, 1000*3) //горизонтальная синусоида на х=0
-                //    },
-                //    new Polyline
-                //    {
-                //        points = GetFunction(Func, 1000*3, 60, 60)
-                //    },
-                //    new Polyline
-                //    {
-                //        points = GetFunction(Func1, 1000*3, 60, 60)
-                //    },
-                //    new Polyline
-                //    {
-                //        points = GetFunction(Func2, 1000*3, 60, 60)
-                //    },
-                //    new Polyline
-                //    {
-                //        points = GetFunction1(Func3, 1000*3)
-                //    }
-                //}
             };
         }
 
 
-        
+        static MeshWire GetPolyline(Vector3[] points)
+        {
+            MeshWire mesh = new MeshWire();
+
+            mesh.points = new double[points.Length*3];
+            for (int i = 0; i < points.Length; i++)
+            {
+                mesh.points[i*3] = points[i].X;
+                mesh.points[i*3+1] = points[i].Y;
+                mesh.points[i*3+2] = points[i].Z;
+            }
+            mesh.links = new int[points.Length - 1][];
+            for (int i = 0; i < mesh.links.Length; i++)
+            {
+                mesh.links[i] = new int[2] { i, i + 1 };
+            }
+            Console.WriteLine($"Polyline {mesh.links.Length}");
+
+            return mesh;
+        }
+
+        static MeshWire GetPolygon(Vector3[] points)
+        {
+            MeshWire mesh = new MeshWire();
+
+            mesh.points = new double[points.Length * 3];
+            for (int i = 0; i < points.Length; i++)
+            {
+                mesh.points[i*3] = points[i].X;
+                mesh.points[i*3 + 1] = points[i].Y;
+                mesh.points[i*3 + 2] = points[i].Z;
+            }
+
+            mesh.links = new int[points.Length][];
+            for (int i = 0; i < mesh.links.Length-1; i++)
+            {
+                mesh.links[i] = new int[2] { i, i + 1 };
+            }
+            mesh.links[mesh.links.Length - 1] = new int[2] { mesh.links.Length - 1, 0 };
+
+            return mesh;
+        }
 
         static MeshWire GetFunction2(Func<Func<double, double>, int, double[]> func, Func<double, double>func1, int count)
         {
@@ -106,7 +192,7 @@ namespace render
             {
                 arr[i] = x * 60;
                 arr[i + 1] = func(x * 60) * 60;
-                arr[i + 2] = 0;
+                arr[i + 2] = -100;
             }
 
             return arr;
