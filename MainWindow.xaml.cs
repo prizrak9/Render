@@ -27,44 +27,64 @@ namespace render
             InitializeComponent();
 
             Prepare();
-            
-            Time.OnUpdate += Time_OnUpdate;
+
+            ServiceRender.OnUpdate += ServiceRender_OnUpdate;
         }
 
         private void Prepare()
         {
-            Vector3 aa = new Vector3(0.70710678, 0.70710678, 0);
-            Vector3 bb = new Vector3(0, 1, 0);
-            Quaternion rr = Quaternion.BetweenVectors(new Vector3(1, 0, 0), aa);
+            ServiceRender.scene = SceneBuilder.GenerateScene();
+            ServiceRender.scene.camera.position.Y = 0;
+            ServiceRender.scene.camera.position.Z = 100;
 
-            double angleBetween = Vector3.AngleBetween(new Vector3(1, 0, 0), aa);
-            double s = Math.Sin(angleBetween / 2);
-            Vector3 third = new Vector3(1, 0, 0) * aa;
-
-            Console.WriteLine($"Q {Math.Cos(angleBetween / 2)} {third} {s}");
-
-            Console.WriteLine($"Quat {rr.s} {rr.v}");
-            Console.WriteLine($"Quat {rr.s} {rr.v}");
-            Console.WriteLine($"After rot {Quaternion.Rotate(aa, rr)}");
-            Console.WriteLine($"Axe after rot {Quaternion.Rotate(bb, rr)}");
-
-
-            render = new Render();
-
-            scene = SceneBuilder.GenerateScene();
-            scene.camera.position.Y = 0;
-            scene.camera.position.Z = 100;
-
-            image.Source = new WriteableBitmap(1, 1, 96, 96, PixelFormats.Bgra32, null);
-
-            Time.Start();
+            ServiceRender.Start(image, new Vector2(10, 10));
 
             KeyDown += Input.Update.KeyDown;
             KeyUp += Input.Update.KeyUp;
         }
 
+        private void ServiceRender_OnUpdate()
+        {
+            Vector3 axe;
+            double alpha;
+            double move;
+            double dt = ServiceRender.DeltaTime;
 
-        private void Time_OnUpdate(object sender, EventArgs e)
+            if (Input.GetAxe(Input.Axe.HorizontalRot) != 0)
+            {
+                axe = new Vector3(0, 0, 1);
+                alpha = -Input.GetAxe(Input.Axe.HorizontalRot) / Math.PI * dt * 2;
+                Console.WriteLine($"Angle to rotate horizontal {alpha}");
+                ServiceRender.scene.camera.Rotate(axe, alpha);
+            }
+
+            if (Input.GetAxe(Input.Axe.VerticalRot) != 0)
+            {
+                axe = new Vector3(0, 1, 0);
+                alpha = -Input.GetAxe(Input.Axe.VerticalRot) / Math.PI * dt * 2;
+                Console.WriteLine($"Angle to rotate vertical {alpha}");
+                ServiceRender.scene.camera.Rotate(axe, alpha);
+            }
+
+            if (Input.GetAxe(Input.Axe.ForwardMov) != 0)
+            {
+                move = Input.GetAxe(Input.Axe.ForwardMov) * dt * 40;
+                Console.WriteLine($"Forward step {move}");
+                ServiceRender.scene.camera.position.X += move;
+            }
+
+            if (Input.GetAxe(Input.Axe.SideMov) != 0)
+            {
+                move = Input.GetAxe(Input.Axe.SideMov) * dt * 40;
+                Console.WriteLine($"Side step {move}");
+                ServiceRender.scene.camera.position.Y -= move;
+            }
+            Console.WriteLine($"fps {1 / ServiceRender.DeltaTime }");
+
+            //ServiceRender.scene.camera.position += new Vector3(Input.GetAxe(Input.Axe.Vertical), -Input.GetAxe(Input.Axe.Horizontal), 0);
+        }
+
+        /*private void Time_OnUpdate(object sender, EventArgs e)
         {
             Vector3 axe;
             double alpha;
@@ -95,12 +115,12 @@ namespace render
             }
 
             image.Source = BitmapSource.Create((int)image.ActualWidth, (int)image.ActualHeight, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)image.ActualWidth);
-        }
+        }*/
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            scene.camera.Size = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
-            image.Source = BitmapSource.Create((int)e.NewSize.Width, (int)e.NewSize.Height, 96, 96, PixelFormats.Bgra32, null, render.GetImage(scene), 4 * (int)e.NewSize.Width);
+            //scene.camera.Size = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
+            ServiceRender.ViewSize = new Vector2((int)e.NewSize.Width, (int)e.NewSize.Height);
         }
         
     }
