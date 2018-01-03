@@ -2,7 +2,7 @@
 
 namespace render
 {
-    struct Camera
+    class Camera
     {
         /// <summary>
         /// Resolution of camera. Also updates Center position.
@@ -35,8 +35,9 @@ namespace render
         public Vector3 rotation;
         public Vector3 position;
 
-        public Vector3 forward;
-        public Vector3 up;
+        public Vector3 Forward { get; set; }
+        public Vector3 Up { get; set; }
+        public Vector3 Left => Forward * Up;
 
         private Vector2 size;
 
@@ -47,15 +48,15 @@ namespace render
 
         public void RotateV(double angle)
         {
-            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * (forward * up));
-            up = Quaternion.Rotate(up, q).Normalized();
-            forward = Quaternion.Rotate(forward, q).Normalized();
+            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * (Forward * Up));
+            Up = Quaternion.Rotate(Up, q).Normalized();
+            Forward = Quaternion.Rotate(Forward, q).Normalized();
         }
 
         public void RotateH(double angle)
         {
-            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * up);
-            forward = Quaternion.Rotate(forward, q).Normalized();
+            Quaternion q = new Quaternion(Math.Cos(angle / 2), Math.Sin(angle / 2) * Up);
+            Forward = Quaternion.Rotate(Forward, q).Normalized();
         }
 
         public void UpdateFOV()
@@ -80,8 +81,8 @@ namespace render
             fov = new Vector2(Math.Tan(angleVertical / 2), Math.Tan(size.X * Math.Tan(angleVertical / 2) / size.Y));
             position = new Vector3(-100, 0, 0);
             Center = size/2;
-            forward = new Vector3(1, 0, 0);
-            up = new Vector3(0, 0, 1);
+            Forward = new Vector3(1, 0, 0);
+            Up = new Vector3(0, 0, 1);
         }
     }
 }
