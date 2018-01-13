@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -112,7 +112,7 @@ namespace render
         {
             MeshWire mesh = new MeshWire()
             {
-                points = new double[points.Length],
+                points = new Point[points.Length],
                 links = new int[points.Length - 1][]
             };
 
@@ -133,7 +133,7 @@ namespace render
         {
             MeshWire mesh = new MeshWire()
             {
-                points = new double[points.Length],
+                points = new Point[points.Length],
                 links = new int[points.Length][]
             };
 

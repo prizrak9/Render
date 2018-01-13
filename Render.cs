@@ -164,7 +164,7 @@ namespace render
             {
                 point0 = obj.mesh.points[i].Pos;
                 localPosition0 = GetLocalPosition(point0, camera.position);
-                point0 = ProjectToCameraViewSurface(localPosition0, camera.forward, camera.up);
+                point0 = ProjectToCameraViewSurface(localPosition0, camera.Forward, camera.Up);
 
                 if (point0.X <= camera.Length) continue;
 
