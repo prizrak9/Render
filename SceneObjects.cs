@@ -7,8 +7,13 @@ using System.Runtime.InteropServices;
 namespace render
 {
 
-    class Color
+    public class Color
     {
+        public static Color _Red => new Color(0, 0, 255, 255);
+        public static Color _Green => new Color(0, 255, 0, 255);
+        public static Color _Blue => new Color(255, 0, 0, 255);
+
+
         public byte Blue { get; set; }
         public byte Green { get; set; }
         public byte Red { get; set; }
@@ -23,6 +28,18 @@ namespace render
         }
     }
 
+    public class Point
+    {
+        public Color Color;
+        public Vector3 Pos;
+
+        public Point(Color color, Vector3 position)
+        {
+            Color = color;
+            Pos = position;
+        }
+    }
+
     public class SceneObject
     {
         public Mesh mesh;
@@ -30,7 +47,7 @@ namespace render
 
     public abstract class Mesh
     {
-        public double[] points;
+        public Point[] points;
     }
 
     public class MeshWire : Mesh
@@ -41,6 +58,11 @@ namespace render
     public class MeshFilled : Mesh
     {
         public int[][] links;
+    }
+
+    public class MeshTriangled : Mesh
+    {
+        public int[][] facets;
     }
 
     //public class Polyline

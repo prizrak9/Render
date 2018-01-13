@@ -73,12 +73,12 @@ namespace render
             return fov;
         }
 
-        public Camera(Vector2 size, double angleVertical = Math.PI / 3)
+        public Camera(Vector2 size, double angleVertical = Math.PI * 0.44)
         {
             Length = 1;
             this.size = size;
             rotation = new Vector3(1, 1, 1);
-            fov = new Vector2(Math.Tan(angleVertical / 2), Math.Tan(size.X * Math.Tan(angleVertical / 2) / size.Y));
+            fov = new Vector2(Math.Tan(angleVertical / 2), size.X * Math.Tan(angleVertical / 2) / size.Y);
             position = new Vector3(-100, 0, 0);
             Center = size/2;
             Forward = new Vector3(1, 0, 0);
