@@ -45,32 +45,28 @@ namespace render
             double alpha;
             double move;
             double dt = ServiceRender.DeltaTime;
+            double rotK = dt * 2 / Math.PI;
+            double movK = dt * 40;
+            Camera camera = ServiceRender.scene.camera;
             
-            if (Input.GetAxe(Input.Axe.HorizontalRot) != 0)
-            {
-                alpha = -Input.GetAxe(Input.Axe.HorizontalRot) / Math.PI * dt * 2;
-                ServiceRender.scene.camera.RotateH(alpha);
-            }
 
-            if (Input.GetAxe(Input.Axe.VerticalRot) != 0)
-            {
-                alpha = Input.GetAxe(Input.Axe.VerticalRot) / Math.PI * dt * 2;
-                ServiceRender.scene.camera.RotateV(alpha);
-            }
+            alpha = Input.GetAxe(Input.Axe.HorizontalRot);
+            if (alpha != 0)
+                camera.RotateH(-alpha * rotK);
 
-            if (Input.GetAxe(Input.Axe.ForwardMov) != 0)
-            {
-                move = Input.GetAxe(Input.Axe.ForwardMov) * dt * 40;
-                ServiceRender.scene.camera.position += ServiceRender.scene.camera.forward * move;
-            }
+            alpha = Input.GetAxe(Input.Axe.VerticalRot);
+            if (alpha != 0)
+                camera.RotateV(alpha * rotK);
 
-            if (Input.GetAxe(Input.Axe.SideMov) != 0)
-            {
-                move = Input.GetAxe(Input.Axe.SideMov) * dt * 40;
-                ServiceRender.scene.camera.position += ServiceRender.scene.camera.forward * ServiceRender.scene.camera.up * move;
-            }
+            move = Input.GetAxe(Input.Axe.ForwardMov);
+            if (move != 0)
+                camera.position += camera.Forward * move * movK;
 
-            Console.WriteLine($"fps {1 / ServiceRender.DeltaTime }");
+            move = Input.GetAxe(Input.Axe.SideMov);
+            if (move != 0)
+                camera.position += camera.Left * move * movK;
+
+            Console.WriteLine($"fps { 1 / dt }");
         }
 
         private void image_SizeChanged(object sender, SizeChangedEventArgs e)

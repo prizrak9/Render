@@ -76,8 +76,8 @@ namespace render
                 localPosition1 = GetLocalPosition(point1, camera.position);
 
                 // Project local position to camera view.
-                point0 = ProjectToCameraViewSurface(localPosition0, camera.forward, camera.up);
-                point1 = ProjectToCameraViewSurface(localPosition1, camera.forward, camera.up);
+                point0 = ProjectToCameraViewSurface(localPosition0, camera.Forward, camera.Up);
+                point1 = ProjectToCameraViewSurface(localPosition1, camera.Forward, camera.Up);
                 
 
                 // If line is located behind or crosses camera view then skip this line.
@@ -122,7 +122,7 @@ namespace render
             {
                 point0 = new Vector3(obj.mesh.points[i], obj.mesh.points[i + 1], obj.mesh.points[i + 2]);
                 localPosition0 = GetLocalPosition(point0, camera.position);
-                point0 = ProjectToCameraViewSurface(localPosition0, camera.forward, camera.up);
+                point0 = ProjectToCameraViewSurface(localPosition0, camera.Forward, camera.Up);
 
                 if (point0.X <= camera.Length) continue;
 
