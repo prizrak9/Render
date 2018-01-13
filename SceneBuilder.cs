@@ -15,7 +15,7 @@ namespace render
                 camera = new Camera(new Vector2(640, 480)),
                 objects = new SceneObject[]
                 {
-                    new SceneObject
+                    /*new SceneObject
                     {
                         mesh = GetFunction2(GetFunction, Func, 1000*3)
                     },
@@ -26,119 +26,115 @@ namespace render
                     new SceneObject
                     {
                         mesh = GetFunction2(GetFunction, Func2, 1000*3)
-                    },
+                    },*/
                     new SceneObject
                     {//Z
-                        mesh = GetPolyline(new Vector3[] {new Vector3(-400, 100, 750), new Vector3(-400, -400, 750), new Vector3(400, 100, 750), new Vector3(400, -400, 750), })
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-400, 100, 750), new Vector3(-400, -400, 750), new Vector3(400, 100, 750), new Vector3(400, -400, 750), }, Color._Red)
                     },
                     new SceneObject
                     {//-Z
-                        mesh = GetPolyline(new Vector3[] {new Vector3(400, 100, -750), new Vector3(400, -400, -750), new Vector3(-400, 100, -750), new Vector3(-400, -400, -750), })
+                        mesh = GetPolyline(new Vector3[] {new Vector3(400, 100, -750), new Vector3(400, -400, -750), new Vector3(-400, 100, -750), new Vector3(-400, -400, -750), }, Color._Red)
                     },
                     new SceneObject
                     {//-Z -
-                        mesh = GetPolyline(new Vector3[] {new Vector3(0, 400, -750), new Vector3(0, 250, -750),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(0, 400, -750), new Vector3(0, 250, -750),}, Color._Red)
                     },
                     new SceneObject
                     {//Y1
-                        mesh = GetPolyline(new Vector3[] {new Vector3(-100, 750, 400), new Vector3(150, 750, 0), new Vector3(150, 750, -400),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-100, 750, 400), new Vector3(150, 750, 0), new Vector3(150, 750, -400),}, Color._Red)
                     },
                     new SceneObject
                     {//Y2
-                        mesh = GetPolyline(new Vector3[] {new Vector3(400, 750, 400), new Vector3(150, 750, 0),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(400, 750, 400), new Vector3(150, 750, 0),}, Color._Red)
                     },
                     new SceneObject
                     {//-Y1
-                        mesh = GetPolyline(new Vector3[] {new Vector3(100, -750, 400), new Vector3(-150, -750, 0), new Vector3(-150, -750, -400),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(100, -750, 400), new Vector3(-150, -750, 0), new Vector3(-150, -750, -400),}, Color._Red)
                     },
                     new SceneObject
                     {//-Y2
-                        mesh = GetPolyline(new Vector3[] {new Vector3(-400, -750, 400), new Vector3(-150, -750, 0),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-400, -750, 400), new Vector3(-150, -750, 0),}, Color._Red)
                     },
                     new SceneObject
                     {//-Y -
-                        mesh = GetPolyline(new Vector3[] {new Vector3(400, -750, 0), new Vector3(250, -750, 0),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(400, -750, 0), new Vector3(250, -750, 0),}, Color._Red)
                     },
                     new SceneObject
                     {//X1
-                        mesh = GetPolyline(new Vector3[] {new Vector3(750, 100, 400), new Vector3(750, -400, -400),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(750, 100, 400), new Vector3(750, -400, -400),}, Color._Red)
                     },
                     new SceneObject
                     {//X2
-                        mesh = GetPolyline(new Vector3[] {new Vector3(750, -400, 400), new Vector3(750, 100, -400),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(750, -400, 400), new Vector3(750, 100, -400),}, Color._Red)
                     },
                     new SceneObject
                     {//-X1
-                        mesh = GetPolyline(new Vector3[] {new Vector3(-750, -100, 400), new Vector3(-750, 400, -400),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-750, -100, 400), new Vector3(-750, 400, -400),}, Color._Red)
                     },
                     new SceneObject
                     {//-X2
-                        mesh = GetPolyline(new Vector3[] {new Vector3(-750, 400, 400), new Vector3(-750, -100, -400),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-750, 400, 400), new Vector3(-750, -100, -400),}, Color._Red)
                     },
                     new SceneObject
                     {//-X -
-                        mesh = GetPolyline(new Vector3[] {new Vector3(-750, -400, 0), new Vector3(-750, -250, 0),})
+                        mesh = GetPolyline(new Vector3[] {new Vector3(-750, -400, 0), new Vector3(-750, -250, 0),}, Color._Red)
                     },
                     new SceneObject
                     {//UP
-                        mesh = GetPolygon(new Vector3[] {new Vector3(-500, 500, 750), new Vector3(500, 500, 750), new Vector3(500, -500, 750), new Vector3(-500, -500, 750),})
+                        mesh = GetPolygon(new Vector3[] {new Vector3(-500, 500, 750), new Vector3(500, 500, 750), new Vector3(500, -500, 750), new Vector3(-500, -500, 750),}, Color._Blue)
                     },
                     new SceneObject
                     {//DOWN
-                        mesh = GetPolygon(new Vector3[] {new Vector3(-500, 500, -750), new Vector3(500, 500, -750), new Vector3(500, -500, -750), new Vector3(-500, -500, -750),})
+                        mesh = GetPolygon(new Vector3[] {new Vector3(-500, 500, -750), new Vector3(500, 500, -750), new Vector3(500, -500, -750), new Vector3(-500, -500, -750),}, Color._Blue)
                     },
                     new SceneObject
                     {//N
-                        mesh = GetPolygon(new Vector3[] {new Vector3(750, 500, 500), new Vector3(750, 500, -500), new Vector3(750, -500, -500), new Vector3(750, -500, 500),})
+                        mesh = GetPolygon(new Vector3[] {new Vector3(750, 500, 500), new Vector3(750, 500, -500), new Vector3(750, -500, -500), new Vector3(750, -500, 500),}, Color._Blue)
                     },
                     new SceneObject
                     {//S
-                        mesh = GetPolygon(new Vector3[] {new Vector3(-750, 500, 500), new Vector3(-750, 500, -500), new Vector3(-750, -500, -500), new Vector3(-750, -500, 500),})
+                        mesh = GetPolygon(new Vector3[] {new Vector3(-750, 500, 500), new Vector3(-750, 500, -500), new Vector3(-750, -500, -500), new Vector3(-750, -500, 500),}, Color._Blue)
                     },
                     new SceneObject
                     {//W
-                        mesh = GetPolygon(new Vector3[] {new Vector3(500, 750, 500), new Vector3(500, 750, -500), new Vector3(-500, 750, -500), new Vector3(-500, 750, 500),})
+                        mesh = GetPolygon(new Vector3[] {new Vector3(500, 750, 500), new Vector3(500, 750, -500), new Vector3(-500, 750, -500), new Vector3(-500, 750, 500),}, Color._Blue)
                     },
                     new SceneObject
                     {//E
-                        mesh = GetPolygon(new Vector3[] {new Vector3(500, -750, 500), new Vector3(500, -750, -500), new Vector3(-500, -750, -500), new Vector3(-500, -750, 500),})
+                        mesh = GetPolygon(new Vector3[] {new Vector3(500, -750, 500), new Vector3(500, -750, -500), new Vector3(-500, -750, -500), new Vector3(-500, -750, 500),}, Color._Blue)
                     },
                 }
             };
         }
 
 
-        static MeshWire GetPolyline(Vector3[] points)
+        static MeshWire GetPolyline(Vector3[] points, Color color)
         {
             MeshWire mesh = new MeshWire();
 
-            mesh.points = new double[points.Length*3];
+            mesh.points = new Point[points.Length];
             for (int i = 0; i < points.Length; i++)
             {
-                mesh.points[i*3] = points[i].X;
-                mesh.points[i*3+1] = points[i].Y;
-                mesh.points[i*3+2] = points[i].Z;
+                mesh.points[i] = new Point(color, points[i]);
             }
+
             mesh.links = new int[points.Length - 1][];
             for (int i = 0; i < mesh.links.Length; i++)
             {
                 mesh.links[i] = new int[2] { i, i + 1 };
             }
-            Console.WriteLine($"Polyline {mesh.links.Length}");
 
             return mesh;
         }
 
-        static MeshWire GetPolygon(Vector3[] points)
+        static MeshWire GetPolygon(Vector3[] points, Color color)
         {
             MeshWire mesh = new MeshWire();
 
-            mesh.points = new double[points.Length * 3];
+            mesh.points = new Point[points.Length];
             for (int i = 0; i < points.Length; i++)
             {
-                mesh.points[i*3] = points[i].X;
-                mesh.points[i*3 + 1] = points[i].Y;
-                mesh.points[i*3 + 2] = points[i].Z;
+                mesh.points[i] = new Point(color, points[i]);
             }
 
             mesh.links = new int[points.Length][];
@@ -151,7 +147,7 @@ namespace render
             return mesh;
         }
 
-        static MeshWire GetFunction2(Func<Func<double, double>, int, double[]> func, Func<double, double>func1, int count)
+        /*static MeshWire GetFunction2(Func<Func<double, double>, int, double[]> func, Func<double, double>func1, int count)
         {
             MeshWire mesh = new MeshWire();
 
@@ -196,7 +192,7 @@ namespace render
             }
 
             return arr;
-        }
+        }*/
 
         static double Func(double x) =>
             Math.Sin(x);
