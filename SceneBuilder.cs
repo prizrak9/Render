@@ -103,6 +103,30 @@ namespace render
                     {//E
                         mesh = GetPolygon(new [] {new Vector3(500, -750, 500), new Vector3(500, -750, -500), new Vector3(-500, -750, -500), new Vector3(-500, -750, 500),}, Color._Blue)
                     },
+                    new SceneObject
+                    {
+                        mesh = new MeshWire()
+                        {
+                            points = new Point[]
+                            {
+                                new Point(Color._Red, new Vector3(500, -750, 500)),
+                                new Point(Color._Green, new Vector3(500, 750, -500)),
+                            },
+                            links = new int[][] { new int[] { 0, 1 }, }
+                        }
+                    },
+                    new SceneObject
+                    {
+                        mesh = new MeshWire()
+                        {
+                            points = new Point[]
+                            {
+                                new Point(Color._White, new Vector3(500, 750, 500)),
+                                new Point(Color._Black, new Vector3(500, -750, -500)),
+                            },
+                            links = new int[][] { new int[] { 0, 1 }, }
+                        }
+                    },
                 }
             };
         }

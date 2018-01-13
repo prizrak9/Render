@@ -12,6 +12,8 @@ namespace render
         public static Color _Red => new Color(0, 0, 255, 255);
         public static Color _Green => new Color(0, 255, 0, 255);
         public static Color _Blue => new Color(255, 0, 0, 255);
+        public static Color _White => new Color(255, 255, 255, 255);
+        public static Color _Black => new Color(0, 0, 0, 255);
 
 
         public byte Blue { get; set; }
@@ -25,6 +27,11 @@ namespace render
             Green = green;
             Red = red;
             Alpha = alpha;
+        }
+
+        public Color mix(Color color2, double part2)
+        {
+            return new Color((byte)(Blue * (1.0 - part2) + color2.Blue * part2), (byte)(Green * (1.0 - part2) + color2.Green * part2), (byte)(Red * (1.0 - part2) + color2.Red * part2), (byte)(Alpha * (1.0 - part2) + color2.Alpha * part2));
         }
     }
 
@@ -64,9 +71,4 @@ namespace render
     {
         public int[][] facets;
     }
-
-    //public class Polyline
-    //{
-    //    public double[] points;
-    //}
 }
